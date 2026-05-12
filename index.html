@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InsurePortal | Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f2f2ed;
+      color: #1a1a1a;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .app { display: flex; min-height: 100vh; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: 195px;
+      background: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem 0 1rem;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100vh;
+      z-index: 20;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 1.25rem 2rem;
+    }
+
+    .logo-dot {
+      width: 22px; height: 22px;
+      background: #e85d26;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .logo-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 1.25rem;
+      font-size: 13.5px;
+      color: #777;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item i { font-size: 17px; }
+    .nav-item:hover { color: #fff; background: #242424; }
+
+    .nav-item.active {
+      background: #242424;
+      color: #fff;
+      font-weight: 600;
+      border-left-color: #e85d26;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      border-top: 1px solid #2a2a2a;
+      padding-top: 0.75rem;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      margin-left: 195px;
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      padding: 1.5rem 2rem 1rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .welcome-title {
+      font-size: 25px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+
+    .welcome-sub {
+      font-size: 13px;
+      color: #999;
+      margin-top: 3px;
+    }
+
+    .topbar-right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notif-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid #e5e5de;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      position: relative;
+      font-size: 17px;
+      color: #555;
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 5px; right: 6px;
+      width: 7px; height: 7px;
+      background: #e85d26;
+      border-radius: 50%;
+      border: 2px solid #f2f2ed;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: 20px;
+      padding: 5px 14px 5px 5px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .user-avatar {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #e85d26;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1.5px solid #ddddd5;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      font-weight: 500;
+      transition: border-color 0.15s;
+    }
+
+    .btn-outline:hover { border-color: #aaa; }
+
+    .btn-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      background: #e85d26;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+
+    .btn-add:hover { background: #d14e1a; }
+
+    /* ===== CONTENT ===== */
+    .content {
+      padding: 0 2rem 2rem;
+    }
+
+    /* Top grid */
+    .top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ===== SUMMARY CARD ===== */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.4rem;
+      border: 1px solid #eaeae3;
+    }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-title { font-size: 15px; font-weight: 700; }
+    .card-sub   { font-size: 12px; color: #999; margin-top: 3px; }
+
+    .period-select {
+      padding: 5px 10px;
+      border: 1px solid #eaeae3;
+      border-radius: 20px;
+      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      color: #555;
+      cursor: pointer;
+      background: #fafaf7;
+    }
+
+    .summary-nums {
+      display: flex;
+      gap: 2.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .num-label {
+      font-size: 11.5px;
+      color: #aaa;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .arrow-down { color: #e85d26; font-size: 13px; }
+    .arrow-up   { color: #22c55e; font-size: 13px; }
+
+    .num-value {
+      font-size: 26px;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: -1px;
+      color: #1a1a1a;
+    }
+
+    /* Bar chart */
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 85px;
+    }
+
+    .bar-col {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .bar {
+      width: 100%;
+      border-radius: 4px 4px 0 0;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .bar:hover { opacity: 0.75; }
+    .bar-on  { background: #e85d26; }
+    .bar-off { background: #e8e8e0; }
+
+    /* ===== MINI STATS ===== */
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .mini-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid #eaeae3;
+    }
+
+    .mini-label {
+      font-size: 12px;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 5px;
+    }
+
+    .mini-change { font-size: 12px; font-weight: 600; color: #22c55e; margin-bottom: 4px; }
+
+    .mini-value {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: -0.5px;
+    }
+
+    /* ===== ACTIVITY ===== */
+    .activity-header {
+      margin-bottom: 0.75rem;
+    }
+
+    .activity-title { font-size: 15px; font-weight: 700; }
+    .activity-sub   { font-size: 12px; color: #999; margin-top: 2px; }
+
+    .act-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .act-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.1rem;
+      border: 1px solid #eaeae3;
+    }
+
+    .act-card.dark {
+      background: #1a1a1a;
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .act-icon {
+      font-size: 15px;
+      color: #bbb;
+      margin-bottom: 4px;
+    }
+
+    .act-card.dark .act-icon { color: #666; }
+
+    .act-name {
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 3px;
+    }
+
+    .act-card.dark .act-name { color: #888; }
+
+    .act-change {
+      font-size: 11.5px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .act-value {
+      font-size: 30px;
+      font-weight: 700;
+      font-family: 'DM Mono', monospace;
+      line-height: 1.1;
+    }
+
+    .sparkline {
+      margin-top: 10px;
+      width: 100%;
+      height: 38px;
+      display: block;
+    }
+
+    /* ===== TRANSACTIONS ===== */
+    .txn-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .filter-btn {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1px solid #eaeae3;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: #aaa;
+      font-size: 16px;
+      background: #fff;
+    }
+
+    table.txn { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+    table.txn th {
+      color: #ccc;
+      font-weight: 500;
+      font-size: 12px;
+      text-align: left;
+      padding: 0 0 10px;
+      border-bottom: 1px solid #f0f0e8;
+    }
+
+    table.txn td {
+      padding: 13px 0;
+      border-bottom: 1px solid #f5f5ee;
+      vertical-align: middle;
+    }
+
+    table.txn tr:last-child td { border-bottom: none; }
+
+    .txn-icon {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .txn-name-wrap { display: flex; align-items: center; gap: 10px; }
+    .txn-name { font-weight: 500; }
+    .txn-id   { color: #ccc; }
+
+    .s-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .s-pending  { background: #fff4ee; color: #e85d26; }
+    .s-approved { background: #f0fdf4; color: #16a34a; }
+    .s-rejected { background: #fef2f2; color: #dc2626; }
+    .s-review   { background: #eff6ff; color: #2563eb; }
+
+    .s-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+    .d-pending  { background: #e85d26; }
+    .d-approved { background: #16a34a; }
+    .d-rejected { background: #dc2626; }
+    .d-review   { background: #2563eb; }
+
+    .amt-pos { color: #16a34a; font-weight: 600; font-family: 'DM Mono', monospace; font-size: 13px; }
+    .amt-neg { color: #e85d26; font-weight: 600; font-family: 'DM Mono', monospace; font-size: 13px; }
+
+    .txn-date { color: #bbb; font-size: 12.5px; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      <div class="logo-title">InsureIQ</div>
+    </div>
+
+    <a href="index.html"     class="nav-item active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a href="policies.html"  class="nav-item"><i class="ti ti-file-text"></i> Policies</a>
+    <a href="claims.html"    class="nav-item"><i class="ti ti-clipboard-list"></i> Claims</a>
+    <a href="customers.html" class="nav-item"><i class="ti ti-search"></i> Search</a>
+    <a href="#"              class="nav-item"><i class="ti ti-calendar"></i> Calendar</a>
+    <a href="#"              class="nav-item"><i class="ti ti-chart-bar"></i> Analytics</a>
+    <a href="settings.html"  class="nav-item"><i class="ti ti-shield"></i> Admin Panel</a>
+
+    <div class="sidebar-bottom">
+      <a href="#" class="nav-item"><i class="ti ti-logout"></i> Log out</a>
+    </div>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div>
+        <div class="welcome-title">Welcome back, Kehinde! 👋</div>
+        <div class="welcome-sub">Control your policies, claims, and expenses.</div>
+      </div>
+      <div class="topbar-right-col">
+        <div class="user-row">
+          <div class="notif-btn">
+            <i class="ti ti-bell"></i>
+            <div class="notif-dot"></div>
+          </div>
+          <div class="user-chip">
+            <div class="user-avatar">K</div>
+            Kehinde
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn-outline"><i class="ti ti-filter" style="font-size:14px"></i> Filters</button>
+          <button class="btn-outline"><i class="ti ti-download" style="font-size:14px"></i> Exports</button>
+          <button class="btn-add" onclick="window.location='policies.html'">
+            <i class="ti ti-plus" style="font-size:14px"></i> Add Policy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- TOP GRID -->
+      <div class="top-grid">
+
+        <!-- Summary Card -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Summary</div>
+              <div class="card-sub">Track your performance.</div>
+            </div>
+            <select class="period-select">
+              <option>Weekly</option>
+              <option>Monthly</option>
+              <option>Yearly</option>
+            </select>
+          </div>
+
+          <div class="summary-nums">
+            <div>
+              <div class="num-label"><span class="arrow-down">↓</span> Total income</div>
+              <div class="num-value">12,135.00</div>
+            </div>
+            <div>
+              <div class="num-label"><span class="arrow-up">↑</span> Total paid</div>
+              <div class="num-value">8,873.00</div>
+            </div>
+          </div>
+
+          <!-- Bar chart built by JS -->
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+
+        <!-- Activity -->
+        <div>
+          <div class="activity-header">
+            <div class="activity-title">Activity</div>
+            <div class="activity-sub">Track your activity.</div>
+          </div>
+          <div class="act-cards">
+
+            <!-- Active Policies -->
+            <div class="act-card">
+              <div class="act-icon"><i class="ti ti-file-text"></i></div>
+              <div class="act-name">Active Policies</div>
+              <div class="act-change" style="color:#22c55e">↑ +2.5%</div>
+              <div class="act-value" id="act-policies">-</div>
+              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+                <polyline points="0,35 15,28 30,32 45,18 60,22 75,12 90,18 100,10"
+                  fill="none" stroke="#e85d26" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <!-- Total Claims -->
+            <div class="act-card">
+              <div class="act-icon"><i class="ti ti-clipboard-list"></i></div>
+              <div class="act-name">Total Claims</div>
+              <div class="act-change" style="color:#22c55e">↑ +4.5%</div>
+              <div class="act-value" id="act-claims">-</div>
+              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+                <polyline points="0,30 15,35 30,25 45,30 60,20 75,28 90,22 100,18"
+                  fill="none" stroke="#e85d26" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <!-- Pending (dark) -->
+            <div class="act-card dark">
+              <div class="act-icon"><i class="ti ti-clock"></i></div>
+              <div class="act-name">Pending Claims</div>
+              <div class="act-change" style="color:#e85d26">↓ -1.5%</div>
+              <div class="act-value" id="act-pending">-</div>
+              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
+                <polyline points="0,15 15,20 30,12 45,25 60,18 75,30 90,22 100,28"
+                  fill="none" stroke="#e85d26" stroke-width="2.2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MINI STATS -->
+      <div class="mini-grid">
+        <div class="mini-card">
+          <div class="mini-label"><i class="ti ti-trending-up" style="color:#22c55e;font-size:14px"></i> Weekly average</div>
+          <div class="mini-change">↑ +11.5%</div>
+          <div class="mini-value">25,460.00</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-label"><i class="ti ti-chart-line" style="color:#22c55e;font-size:14px"></i> Annual average</div>
+          <div class="mini-change">↑ +11.5%</div>
+          <div class="mini-value">25,460.00</div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <div class="card">
+        <div class="txn-head">
+          <div>
+            <div class="card-title">Transactions history</div>
+            <div class="card-sub">Track your history.</div>
+          </div>
+          <div class="filter-btn"><i class="ti ti-adjustments-horizontal"></i></div>
+        </div>
+        <table class="txn">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="txn-body"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+
+  // ===== BAR CHART =====
+  const bars = [38, 52, 44, 68, 82, 74, 90, 58, 44, 50, 38, 32];
+  const highlighted = [3, 4, 5, 6]; // orange bars
+  const chartEl = document.getElementById('bar-chart');
+
+  bars.forEach((h, i) => {
+    const col = document.createElement('div');
+    col.className = 'bar-col';
+    const bar = document.createElement('div');
+    bar.className = 'bar ' + (highlighted.includes(i) ? 'bar-on' : 'bar-off');
+    bar.style.height = h + '%';
+    col.appendChild(bar);
+    chartEl.appendChild(col);
+  });
+
+  // ===== ACTIVITY STATS from data.js =====
+  document.getElementById('act-policies').textContent = policies.filter(p => p.status === 'Active').length;
+  document.getElementById('act-claims').textContent   = claims.length;
+  document.getElementById('act-pending').textContent  = claims.filter(c => c.status === 'Submitted' || c.status === 'Under Review').length;
+
+  // ===== TRANSACTIONS =====
+  const iconColors = ['#e85d26', '#1a1a1a', '#22c55e', '#2563eb', '#8b5cf6'];
+
+  const txnBody = document.getElementById('txn-body');
+
+  claims.slice(0, 5).forEach((c, i) => {
+    const approved = c.status === 'Approved';
+    const amount   = approved ? '+' + c.amount : '-' + c.amount;
+    const amtClass = approved ? 'amt-pos' : 'amt-neg';
+
+    let badgeClass = 's-pending', dotClass = 'd-pending';
+    if (c.status === 'Approved')     { badgeClass = 's-approved'; dotClass = 'd-approved'; }
+    if (c.status === 'Rejected')     { badgeClass = 's-rejected'; dotClass = 'd-rejected'; }
+    if (c.status === 'Under Review') { badgeClass = 's-review';   dotClass = 'd-review'; }
+
+    txnBody.innerHTML += `
+      <tr>
+        <td>
+          <div class="txn-name-wrap">
+            <div class="txn-icon" style="background:${iconColors[i % iconColors.length]}">${c.customer[0]}</div>
+            <span class="txn-name">${c.type}</span>
+          </div>
+        </td>
+        <td class="txn-id">#${i + 1}</td>
+        <td>
+          <span class="s-badge ${badgeClass}">
+            <span class="s-dot ${dotClass}"></span>
+            ${c.status}
+          </span>
+        </td>
+        <td class="txn-date">${c.filed}</td>
+        <td class="${amtClass}">${amount}</td>
+      </tr>
+    `;
+  });
+
+</script>
+</body>
+</html>
