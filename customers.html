@@ -1,335 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>InsurePortal | Customers</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dash.css"/>
 </head>
 <body>
-
 <div class="app">
 
-  <!-- ===== SIDEBAR ===== -->
-  <div class="sidebar">
-    <div class="logo">
-      <div class="logo-title">&#128737; InsurePortal</div>
-      <div class="logo-sub">Management System</div>
-    </div>
-
-    <div class="nav-label">Overview</div>
-    <a href="index.html" class="nav-item">
-      <i class="ti ti-layout-dashboard"></i> Dashboard
-    </a>
-
-    <div class="nav-label">Management</div>
-    <a href="policies.html" class="nav-item">
-      <i class="ti ti-file-text"></i> Policies
-    </a>
-    <a href="claims.html" class="nav-item">
-      <i class="ti ti-clipboard-list"></i> Claims
-    </a>
-    <a href="customers.html" class="nav-item active">
-      <i class="ti ti-users"></i> Customers
-    </a>
-
-    <div class="nav-label">System</div>
-    <a href="settings.html" class="nav-item">
-      <i class="ti ti-settings"></i> Settings
-    </a>
-  </div>
-
-  <!-- ===== MAIN ===== -->
-  <div class="main">
-
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="topbar-title">Customers</div>
-      <div class="topbar-right">
-        <span>Admin User</span>
-        <div class="avatar">AD</div>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="brand-text">
+        <div class="brand-name">InsurePortal</div>
+        <div class="brand-tag">Management System</div>
       </div>
     </div>
+    <nav class="nav">
+      <div class="nav-group-label">Main</div>
+      <a href="index.html"     class="nav-link"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="policies.html"  class="nav-link"><i class="ti ti-file-text"></i><span>Policies</span></a>
+      <a href="claims.html"    class="nav-link"><i class="ti ti-clipboard-list"></i><span>Claims</span></a>
+      <a href="customers.html" class="nav-link active"><i class="ti ti-users"></i><span>Customers</span></a>
+      <div class="nav-group-label">System</div>
+      <a href="settings.html"  class="nav-link"><i class="ti ti-settings"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="su-avatar">T</div>
+      <div class="su-info">
+        <div class="su-name">Teon</div>
+        <div class="su-role">Administrator</div>
+      </div>
+    </div>
+  </aside>
 
-    <!-- Content -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-title">Customers</div>
+        <div class="page-sub">Manage all registered customers</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-primary" onclick="openModal()"><i class="ti ti-plus"></i> Add Customer</button>
+      </div>
+    </header>
+
     <div class="content">
 
-      <!-- Stat Cards -->
-      <div class="stats-grid">
+      <!-- Stat cards -->
+      <div class="stat-grid">
         <div class="stat-card">
-          <div class="stat-label">Total Customers</div>
-          <div class="stat-value" id="total-customers">0</div>
+          <div class="stat-icon navy"><i class="ti ti-users"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Customers</div>
+            <div class="stat-val" id="s-total">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">With Active Policy</div>
-          <div class="stat-value" id="with-policy">0</div>
+          <div class="stat-icon green"><i class="ti ti-file-text"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">With Active Policy</div>
+            <div class="stat-val" id="s-policy">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">With Open Claims</div>
-          <div class="stat-value" id="with-claims">0</div>
+          <div class="stat-icon amber"><i class="ti ti-clipboard-list"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">With Open Claims</div>
+            <div class="stat-val" id="s-claims">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">New This Month</div>
-          <div class="stat-value">2</div>
+          <div class="stat-icon teal"><i class="ti ti-user-plus"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">New This Month</div>
+            <div class="stat-val">2</div>
+          </div>
         </div>
       </div>
 
-      <!-- Customers Table -->
+      <!-- Customers table -->
       <div class="section-card">
         <div class="section-header">
           <div class="search-wrap">
             <i class="ti ti-search"></i>
-            <input
-              class="search-input"
-              type="text"
-              id="search"
-              placeholder="Search by name or email..."
-              oninput="renderTable()"
-            />
+            <input class="search-input" type="text" id="search" placeholder="Search by name or email..." oninput="render()"/>
           </div>
-          <button class="btn btn-primary" onclick="openModal()">
-            <i class="ti ti-plus"></i> Add Customer
-          </button>
+          <button class="btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus"></i> Add Customer</button>
         </div>
 
-        <table>
+        <table class="dt">
           <thead>
             <tr>
-              <th>Customer</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Policies</th>
-              <th>Claims</th>
-              <th>Member Since</th>
-              <th>Action</th>
+              <th>Customer</th><th>Email</th><th>Phone</th>
+              <th>Policies</th><th>Claims</th><th>Since</th><th>Action</th>
             </tr>
           </thead>
-          <tbody id="customers-body"></tbody>
+          <tbody id="tbody"></tbody>
         </table>
-
-        <div id="empty-state" style="display:none; padding:3rem; text-align:center; color:#888; font-size:14px;">
-          No customers found.
-        </div>
+        <div class="empty-state" id="empty" style="display:none">No customers found.</div>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- ===== ADD CUSTOMER MODAL ===== -->
-<div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; padding:1.5rem; width:460px; max-width:95vw;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:15px; font-weight:600;">Add New Customer</h3>
-      <button onclick="closeModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">&times;</button>
+<!-- ADD CUSTOMER MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Add New Customer</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+    <div class="form-grid">
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Full Name</label>
-        <input type="text" id="new-name" placeholder="e.g. John Doe" style="width:100%"/>
+        <label class="field-label">Full Name</label>
+        <input type="text" id="n-name" placeholder="e.g. John Doe" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Email</label>
-        <input type="email" id="new-email" placeholder="e.g. john@email.com" style="width:100%"/>
+        <label class="field-label">Email</label>
+        <input type="email" id="n-email" placeholder="e.g. john@email.com" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Phone</label>
-        <input type="text" id="new-phone" placeholder="e.g. +234 801 000 0000" style="width:100%"/>
+        <label class="field-label">Phone</label>
+        <input type="text" id="n-phone" placeholder="e.g. +234 801 000 0000" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Member Since</label>
-        <input type="text" id="new-since" placeholder="e.g. Jan 2025" style="width:100%"/>
+        <label class="field-label">Member Since</label>
+        <input type="text" id="n-since" placeholder="e.g. Jan 2025" style="width:100%"/>
       </div>
     </div>
-
-    <div id="modal-error" style="color:#dc2626;font-size:12px;margin-bottom:10px;display:none;">
-      Please fill in all fields.
-    </div>
-
-    <div style="display:flex;justify-content:flex-end;gap:8px;">
-      <button class="btn" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="addCustomer()">Add Customer</button>
+    <div class="error-msg" id="err">Please fill in all fields.</div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="addCustomer()">Add Customer</button>
     </div>
   </div>
 </div>
 
-<!-- ===== VIEW CUSTOMER MODAL ===== -->
-<div id="view-modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; padding:1.5rem; width:440px; max-width:95vw;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:15px; font-weight:600;">Customer Details</h3>
-      <button onclick="closeViewModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">&times;</button>
+<!-- VIEW CUSTOMER MODAL -->
+<div class="modal-overlay" id="view-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Customer Details</div>
+      <button class="modal-close" onclick="closeView()">&times;</button>
     </div>
-    <div id="view-content" style="font-size:13px; margin-bottom:1rem;"></div>
 
-    <!-- Customer's policies -->
-    <div style="margin-bottom:1rem;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Policies</div>
+    <!-- Customer info -->
+    <div id="view-info" style="margin-bottom:1.25rem"></div>
+
+    <!-- Their policies -->
+    <div style="margin-bottom:1rem">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#0f2044">Policies</div>
       <div id="view-policies"></div>
     </div>
 
-    <!-- Customer's claims -->
-    <div style="margin-bottom:1.25rem;">
-      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Claims</div>
+    <!-- Their claims -->
+    <div style="margin-bottom:1.25rem">
+      <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#0f2044">Claims</div>
       <div id="view-claims"></div>
     </div>
 
-    <div style="display:flex;justify-content:flex-end;">
-      <button class="btn" onclick="closeViewModal()">Close</button>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeView()">Close</button>
     </div>
   </div>
 </div>
-
 
 <script src="data.js"></script>
 <script>
 
-  // ===== RENDER TABLE =====
-  function renderTable() {
-    const search = document.getElementById('search').value.toLowerCase();
+  function updateStats() {
+    document.getElementById('s-total').textContent  = customers.length;
+    document.getElementById('s-policy').textContent = customers.filter(c => c.policies > 0).length;
+    document.getElementById('s-claims').textContent = customers.filter(c => c.claims > 0).length;
+  }
 
+  function render() {
+    const q = document.getElementById('search').value.toLowerCase();
     const filtered = customers.filter(c =>
-      c.name.toLowerCase().includes(search) ||
-      c.email.toLowerCase().includes(search)
+      c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)
     );
-
-    const body  = document.getElementById('customers-body');
-    const empty = document.getElementById('empty-state');
-
-    if (filtered.length === 0) {
-      body.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
+    const body  = document.getElementById('tbody');
+    const empty = document.getElementById('empty');
+    if (!filtered.length) { body.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
-
     body.innerHTML = filtered.map(c => `
       <tr>
         <td>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <div class="avatar">${c.initials}</div>
-            <span style="font-weight:500">${c.name}</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">${c.initials}</div>
+            <span style="font-weight:600">${c.name}</span>
           </div>
         </td>
-        <td>${c.email}</td>
-        <td>${c.phone}</td>
-        <td>${c.policies}</td>
-        <td>${c.claims}</td>
-        <td>${c.since}</td>
+        <td style="color:#475569">${c.email}</td>
+        <td style="color:#475569">${c.phone}</td>
         <td>
-          <button class="btn btn-sm" onclick="openViewModal('${c.name}')">
+          <span style="background:#e0e9ff;color:#0f2044;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${c.policies}</span>
+        </td>
+        <td>
+          <span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${c.claims}</span>
+        </td>
+        <td style="color:#94a3b8;font-size:12.5px">${c.since}</td>
+        <td>
+          <button class="btn-outline btn-sm" onclick="openView('${c.name}')">
             <i class="ti ti-eye"></i> View
           </button>
         </td>
-      </tr>
-    `).join('');
+      </tr>`).join('');
   }
 
-  // ===== STAT CARDS =====
-  function updateStats() {
-    document.getElementById('total-customers').textContent = customers.length;
-    document.getElementById('with-policy').textContent    = customers.filter(c => c.policies > 0).length;
-    document.getElementById('with-claims').textContent    = customers.filter(c => c.claims > 0).length;
-  }
-
-  // ===== ADD CUSTOMER MODAL =====
-  function openModal() {
-    document.getElementById('modal-overlay').style.display = 'flex';
-  }
-
+  function openModal()  { document.getElementById('modal').classList.add('open'); }
   function closeModal() {
-    document.getElementById('modal-overlay').style.display = 'none';
-    document.getElementById('modal-error').style.display = 'none';
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('err').style.display = 'none';
   }
 
   function addCustomer() {
-    const name  = document.getElementById('new-name').value.trim();
-    const email = document.getElementById('new-email').value.trim();
-    const phone = document.getElementById('new-phone').value.trim();
-    const since = document.getElementById('new-since').value.trim();
-
+    const name  = document.getElementById('n-name').value.trim();
+    const email = document.getElementById('n-email').value.trim();
+    const phone = document.getElementById('n-phone').value.trim();
+    const since = document.getElementById('n-since').value.trim();
     if (!name || !email || !phone || !since) {
-      document.getElementById('modal-error').style.display = 'block';
-      return;
+      document.getElementById('err').style.display = 'block'; return;
     }
-
-    // Generate initials from name
     const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-
     customers.push({ name, initials, email, phone, policies: 0, claims: 0, since });
-
-    closeModal();
-    updateStats();
-    renderTable();
-
-    // Clear fields
-    document.getElementById('new-name').value  = '';
-    document.getElementById('new-email').value = '';
-    document.getElementById('new-phone').value = '';
-    document.getElementById('new-since').value = '';
+    closeModal(); updateStats(); render();
+    ['n-name','n-email','n-phone','n-since'].forEach(id => document.getElementById(id).value = '');
   }
 
-  // ===== VIEW CUSTOMER MODAL =====
-  function openViewModal(name) {
-    const c = customers.find(c => c.name === name);
+  function openView(name) {
+    const c = customers.find(x => x.name === name);
 
     // Basic info
-    document.getElementById('view-content').innerHTML = `
-      <div style="display:flex; align-items:center; gap:12px; margin-bottom:1rem;">
-        <div class="avatar" style="width:44px;height:44px;font-size:15px">${c.initials}</div>
+    document.getElementById('view-info').innerHTML = `
+      <div style="display:flex;align-items:center;gap:14px;padding:1rem;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:1rem">
+        <div style="width:48px;height:48px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;flex-shrink:0">${c.initials}</div>
         <div>
-          <div style="font-size:15px;font-weight:600">${c.name}</div>
-          <div style="font-size:12px;color:#888">Member since ${c.since}</div>
+          <div style="font-size:15px;font-weight:700;color:#0f2044">${c.name}</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px">Member since ${c.since}</div>
         </div>
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <tr><td style="padding:7px 0;color:#888;width:40%">Email</td><td>${c.email}</td></tr>
-        <tr><td style="padding:7px 0;color:#888;border-top:1px solid #f0f0f0">Phone</td><td style="border-top:1px solid #f0f0f0">${c.phone}</td></tr>
-      </table>
-    `;
+        <tr>
+          <td style="padding:8px 0;color:#94a3b8;width:40%">Email</td>
+          <td style="font-weight:500">${c.email}</td>
+        </tr>
+        <tr style="border-top:1px solid #f1f5f9">
+          <td style="padding:8px 0;color:#94a3b8">Phone</td>
+          <td style="font-weight:500">${c.phone}</td>
+        </tr>
+      </table>`;
 
-    // Find this customer's policies
+    // Policies
     const custPolicies = policies.filter(p => p.customer === name);
-    if (custPolicies.length === 0) {
-      document.getElementById('view-policies').innerHTML = '<div style="color:#aaa;font-size:13px">No policies found.</div>';
-    } else {
-      document.getElementById('view-policies').innerHTML = custPolicies.map(p => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
-          <span style="color:#2563eb;font-weight:500">${p.id}</span>
-          <span>${p.type}</span>
-          <span class="badge ${getBadgeClass(p.status)}">${p.status}</span>
-        </div>
-      `).join('');
-    }
+    document.getElementById('view-policies').innerHTML = custPolicies.length
+      ? custPolicies.map(p => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px">
+            <span style="font-weight:700;color:#0f2044">${p.id}</span>
+            <span style="color:#475569">${p.type}</span>
+            <span class="badge ${getBadgeClass(p.status)}">${p.status}</span>
+          </div>`).join('')
+      : '<div style="color:#94a3b8;font-size:13px;padding:8px 0">No policies found.</div>';
 
-    // Find this customer's claims
+    // Claims
     const custClaims = claims.filter(cl => cl.customer === name);
-    if (custClaims.length === 0) {
-      document.getElementById('view-claims').innerHTML = '<div style="color:#aaa;font-size:13px">No claims found.</div>';
-    } else {
-      document.getElementById('view-claims').innerHTML = custClaims.map(cl => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:13px">
-          <span style="color:#2563eb;font-weight:500">${cl.id}</span>
-          <span>${cl.type}</span>
-          <span class="badge ${getBadgeClass(cl.status)}">${cl.status}</span>
-        </div>
-      `).join('');
-    }
+    document.getElementById('view-claims').innerHTML = custClaims.length
+      ? custClaims.map(cl => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px">
+            <span style="font-weight:700;color:#0f2044">${cl.id}</span>
+            <span style="color:#475569">${cl.type}</span>
+            <span class="badge ${getBadgeClass(cl.status)}">${cl.status}</span>
+          </div>`).join('')
+      : '<div style="color:#94a3b8;font-size:13px;padding:8px 0">No claims found.</div>';
 
-    document.getElementById('view-modal-overlay').style.display = 'flex';
+    document.getElementById('view-modal').classList.add('open');
   }
 
-  function closeViewModal() {
-    document.getElementById('view-modal-overlay').style.display = 'none';
-  }
+  function closeView() { document.getElementById('view-modal').classList.remove('open'); }
 
-  // Init
-  updateStats();
-  renderTable();
-
+  updateStats(); render();
 </script>
 </body>
 </html>

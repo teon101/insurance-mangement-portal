@@ -1,720 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>InsurePortal | Dashboard</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: #f2f2ed;
-      color: #1a1a1a;
-      min-height: 100vh;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    .app { display: flex; min-height: 100vh; }
-
-    /* ===== SIDEBAR ===== */
-    .sidebar {
-      width: 195px;
-      background: #1a1a1a;
-      display: flex;
-      flex-direction: column;
-      padding: 1.5rem 0 1rem;
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh;
-      z-index: 20;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 0 1.25rem 2rem;
-    }
-
-    .logo-dot {
-      width: 22px; height: 22px;
-      background: #e85d26;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .logo-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: -0.3px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 1.25rem;
-      font-size: 13.5px;
-      color: #777;
-      cursor: pointer;
-      transition: color 0.15s, background 0.15s;
-      border-left: 3px solid transparent;
-    }
-
-    .nav-item i { font-size: 17px; }
-    .nav-item:hover { color: #fff; background: #242424; }
-
-    .nav-item.active {
-      background: #242424;
-      color: #fff;
-      font-weight: 600;
-      border-left-color: #e85d26;
-    }
-
-    .sidebar-bottom {
-      margin-top: auto;
-      border-top: 1px solid #2a2a2a;
-      padding-top: 0.75rem;
-    }
-
-    /* ===== MAIN ===== */
-    .main {
-      margin-left: 195px;
-      flex: 1;
-      min-height: 100vh;
-    }
-
-    /* ===== TOPBAR ===== */
-    .topbar {
-      padding: 1.5rem 2rem 1rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .welcome-title {
-      font-size: 25px;
-      font-weight: 700;
-      color: #1a1a1a;
-      letter-spacing: -0.5px;
-    }
-
-    .welcome-sub {
-      font-size: 13px;
-      color: #999;
-      margin-top: 3px;
-    }
-
-    .topbar-right-col {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    .user-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .notif-btn {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: #fff;
-      border: 1.5px solid #e5e5de;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      position: relative;
-      font-size: 17px;
-      color: #555;
-    }
-
-    .notif-dot {
-      position: absolute;
-      top: 5px; right: 6px;
-      width: 7px; height: 7px;
-      background: #e85d26;
-      border-radius: 50%;
-      border: 2px solid #f2f2ed;
-    }
-
-    .user-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #1a1a1a;
-      color: #fff;
-      border-radius: 20px;
-      padding: 5px 14px 5px 5px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .user-avatar {
-      width: 26px; height: 26px;
-      border-radius: 50%;
-      background: #e85d26;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .action-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border: 1.5px solid #ddddd5;
-      border-radius: 20px;
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      background: #fff;
-      color: #333;
-      cursor: pointer;
-      font-weight: 500;
-      transition: border-color 0.15s;
-    }
-
-    .btn-outline:hover { border-color: #aaa; }
-
-    .btn-add {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      background: #e85d26;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.15s;
-    }
-
-    .btn-add:hover { background: #d14e1a; }
-
-    /* ===== CONTENT ===== */
-    .content {
-      padding: 0 2rem 2rem;
-    }
-
-    /* Top grid */
-    .top-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-
-    /* ===== SUMMARY CARD ===== */
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.4rem;
-      border: 1px solid #eaeae3;
-    }
-
-    .card-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-
-    .card-title { font-size: 15px; font-weight: 700; }
-    .card-sub   { font-size: 12px; color: #999; margin-top: 3px; }
-
-    .period-select {
-      padding: 5px 10px;
-      border: 1px solid #eaeae3;
-      border-radius: 20px;
-      font-size: 12px;
-      font-family: 'DM Sans', sans-serif;
-      color: #555;
-      cursor: pointer;
-      background: #fafaf7;
-    }
-
-    .summary-nums {
-      display: flex;
-      gap: 2.5rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .num-label {
-      font-size: 11.5px;
-      color: #aaa;
-      margin-bottom: 5px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .arrow-down { color: #e85d26; font-size: 13px; }
-    .arrow-up   { color: #22c55e; font-size: 13px; }
-
-    .num-value {
-      font-size: 26px;
-      font-weight: 700;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: -1px;
-      color: #1a1a1a;
-    }
-
-    /* Bar chart */
-    .bar-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 5px;
-      height: 85px;
-    }
-
-    .bar-col {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .bar {
-      width: 100%;
-      border-radius: 4px 4px 0 0;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
-
-    .bar:hover { opacity: 0.75; }
-    .bar-on  { background: #e85d26; }
-    .bar-off { background: #e8e8e0; }
-
-    /* ===== MINI STATS ===== */
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .mini-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 1.1rem 1.25rem;
-      border: 1px solid #eaeae3;
-    }
-
-    .mini-label {
-      font-size: 12px;
-      color: #aaa;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 5px;
-    }
-
-    .mini-change { font-size: 12px; font-weight: 600; color: #22c55e; margin-bottom: 4px; }
-
-    .mini-value {
-      font-size: 22px;
-      font-weight: 700;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: -0.5px;
-    }
-
-    /* ===== ACTIVITY ===== */
-    .activity-header {
-      margin-bottom: 0.75rem;
-    }
-
-    .activity-title { font-size: 15px; font-weight: 700; }
-    .activity-sub   { font-size: 12px; color: #999; margin-top: 2px; }
-
-    .act-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .act-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 1.1rem;
-      border: 1px solid #eaeae3;
-    }
-
-    .act-card.dark {
-      background: #1a1a1a;
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .act-icon {
-      font-size: 15px;
-      color: #bbb;
-      margin-bottom: 4px;
-    }
-
-    .act-card.dark .act-icon { color: #666; }
-
-    .act-name {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 3px;
-    }
-
-    .act-card.dark .act-name { color: #888; }
-
-    .act-change {
-      font-size: 11.5px;
-      font-weight: 600;
-      margin-bottom: 3px;
-    }
-
-    .act-value {
-      font-size: 30px;
-      font-weight: 700;
-      font-family: 'DM Mono', monospace;
-      line-height: 1.1;
-    }
-
-    .sparkline {
-      margin-top: 10px;
-      width: 100%;
-      height: 38px;
-      display: block;
-    }
-
-    /* ===== TRANSACTIONS ===== */
-    .txn-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-
-    .filter-btn {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      border: 1px solid #eaeae3;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      color: #aaa;
-      font-size: 16px;
-      background: #fff;
-    }
-
-    table.txn { width: 100%; border-collapse: collapse; font-size: 13px; }
-
-    table.txn th {
-      color: #ccc;
-      font-weight: 500;
-      font-size: 12px;
-      text-align: left;
-      padding: 0 0 10px;
-      border-bottom: 1px solid #f0f0e8;
-    }
-
-    table.txn td {
-      padding: 13px 0;
-      border-bottom: 1px solid #f5f5ee;
-      vertical-align: middle;
-    }
-
-    table.txn tr:last-child td { border-bottom: none; }
-
-    .txn-icon {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .txn-name-wrap { display: flex; align-items: center; gap: 10px; }
-    .txn-name { font-weight: 500; }
-    .txn-id   { color: #ccc; }
-
-    .s-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .s-pending  { background: #fff4ee; color: #e85d26; }
-    .s-approved { background: #f0fdf4; color: #16a34a; }
-    .s-rejected { background: #fef2f2; color: #dc2626; }
-    .s-review   { background: #eff6ff; color: #2563eb; }
-
-    .s-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-    .d-pending  { background: #e85d26; }
-    .d-approved { background: #16a34a; }
-    .d-rejected { background: #dc2626; }
-    .d-review   { background: #2563eb; }
-
-    .amt-pos { color: #16a34a; font-weight: 600; font-family: 'DM Mono', monospace; font-size: 13px; }
-    .amt-neg { color: #e85d26; font-weight: 600; font-family: 'DM Mono', monospace; font-size: 13px; }
-
-    .txn-date { color: #bbb; font-size: 12.5px; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dash.css"/>
 </head>
 <body>
-
 <div class="app">
 
-  <!-- ===== SIDEBAR ===== -->
-  <div class="sidebar">
-    <div class="logo">
-      <div class="logo-dot"></div>
-      <div class="logo-title">InsureIQ</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="brand-text">
+        <div class="brand-name">InsurePortal</div>
+        <div class="brand-tag">Management System</div>
+      </div>
     </div>
-
-    <a href="index.html"     class="nav-item active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-    <a href="policies.html"  class="nav-item"><i class="ti ti-file-text"></i> Policies</a>
-    <a href="claims.html"    class="nav-item"><i class="ti ti-clipboard-list"></i> Claims</a>
-    <a href="customers.html" class="nav-item"><i class="ti ti-search"></i> Search</a>
-    <a href="#"              class="nav-item"><i class="ti ti-calendar"></i> Calendar</a>
-    <a href="#"              class="nav-item"><i class="ti ti-chart-bar"></i> Analytics</a>
-    <a href="settings.html"  class="nav-item"><i class="ti ti-shield"></i> Admin Panel</a>
-
-    <div class="sidebar-bottom">
-      <a href="#" class="nav-item"><i class="ti ti-logout"></i> Log out</a>
+    <nav class="nav">
+      <div class="nav-group-label">Main</div>
+      <a href="index.html"     class="nav-link active"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="policies.html"  class="nav-link"><i class="ti ti-file-text"></i><span>Policies</span></a>
+      <a href="claims.html"    class="nav-link"><i class="ti ti-clipboard-list"></i><span>Claims</span></a>
+      <a href="customers.html" class="nav-link"><i class="ti ti-users"></i><span>Customers</span></a>
+      <div class="nav-group-label">System</div>
+      <a href="settings.html"  class="nav-link"><i class="ti ti-settings"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="su-avatar">T</div>
+      <div class="su-info">
+        <div class="su-name">Teon</div>
+        <div class="su-role">Administrator</div>
+      </div>
     </div>
-  </div>
+  </aside>
 
-  <!-- ===== MAIN ===== -->
+  <!-- MAIN -->
   <div class="main">
 
-    <!-- Topbar -->
-    <div class="topbar">
+    <!-- TOPBAR -->
+    <header class="topbar">
       <div>
-        <div class="welcome-title">Welcome back, Kehinde! 👋</div>
-        <div class="welcome-sub">Control your policies, claims, and expenses.</div>
+        <div class="page-title">Dashboard</div>
+        <div class="page-sub">Welcome back, Teon 👋</div>
       </div>
-      <div class="topbar-right-col">
-        <div class="user-row">
-          <div class="notif-btn">
-            <i class="ti ti-bell"></i>
-            <div class="notif-dot"></div>
-          </div>
-          <div class="user-chip">
-            <div class="user-avatar">K</div>
-            Kehinde
-          </div>
-        </div>
-        <div class="action-row">
-          <button class="btn-outline"><i class="ti ti-filter" style="font-size:14px"></i> Filters</button>
-          <button class="btn-outline"><i class="ti ti-download" style="font-size:14px"></i> Exports</button>
-          <button class="btn-add" onclick="window.location='policies.html'">
-            <i class="ti ti-plus" style="font-size:14px"></i> Add Policy
-          </button>
-        </div>
+      <div class="topbar-right">
+        <a href="policies.html" class="btn-primary"><i class="ti ti-plus"></i> New Policy</a>
       </div>
-    </div>
+    </header>
 
     <div class="content">
 
-      <!-- TOP GRID -->
-      <div class="top-grid">
+      <!-- STAT CARDS -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon teal"><i class="ti ti-file-text"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Policies</div>
+            <div class="stat-val" id="s-policies">0</div>
+            <div class="stat-change up">↑ +34 this month</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon navy"><i class="ti ti-clipboard-list"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Active Claims</div>
+            <div class="stat-val" id="s-claims">0</div>
+            <div class="stat-change up">↑ +12 this week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="ti ti-users"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Customers</div>
+            <div class="stat-val" id="s-customers">0</div>
+            <div class="stat-change up">↑ 2 new this month</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><i class="ti ti-clock"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Pending Approval</div>
+            <div class="stat-val" id="s-pending">0</div>
+            <div class="stat-change warn">Needs review</div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Summary Card -->
-        <div class="card">
-          <div class="card-head">
+      <!-- MID ROW -->
+      <div class="mid-row">
+
+        <!-- Chart card -->
+        <div class="chart-card">
+          <div class="chart-head">
             <div>
-              <div class="card-title">Summary</div>
-              <div class="card-sub">Track your performance.</div>
+              <div class="chart-title">Policy Overview</div>
+              <div class="chart-sub">Active vs expired this year</div>
             </div>
-            <select class="period-select">
-              <option>Weekly</option>
-              <option>Monthly</option>
-              <option>Yearly</option>
+            <select class="period-sel">
+              <option>2025</option><option>2024</option>
             </select>
           </div>
 
-          <div class="summary-nums">
-            <div>
-              <div class="num-label"><span class="arrow-down">↓</span> Total income</div>
-              <div class="num-value">12,135.00</div>
-            </div>
-            <div>
-              <div class="num-label"><span class="arrow-up">↑</span> Total paid</div>
-              <div class="num-value">8,873.00</div>
+          <!-- SVG Area Chart -->
+          <div style="position:relative; width:100%; height:160px; margin-bottom:8px;">
+            <svg id="area-chart" viewBox="0 0 500 140" preserveAspectRatio="none"
+              style="width:100%;height:100%;display:block;">
+              <defs>
+                <linearGradient id="gradGreen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#10b981" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.02"/>
+                </linearGradient>
+                <linearGradient id="gradNavy" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stop-color="#0f2044" stop-opacity="0.2"/>
+                  <stop offset="100%" stop-color="#0f2044" stop-opacity="0.02"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Grid lines -->
+              <line x1="0" y1="28"  x2="500" y2="28"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="56"  x2="500" y2="56"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="84"  x2="500" y2="84"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="112" x2="500" y2="112" stroke="#f1f5f9" stroke-width="1"/>
+
+              <!-- Expired area (behind) -->
+              <path id="area-expired" fill="url(#gradNavy)"/>
+              <path id="line-expired" fill="none" stroke="#c7d8f5" stroke-width="2" stroke-linejoin="round"/>
+
+              <!-- Active area (front) -->
+              <path id="area-active" fill="url(#gradGreen)"/>
+              <path id="line-active" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round"/>
+
+              <!-- Dots for active line -->
+              <g id="dots-active"></g>
+            </svg>
+
+            <!-- Y-axis labels -->
+            <div style="position:absolute;left:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
+              <span style="font-size:10px;color:#cbd5e1">8</span>
+              <span style="font-size:10px;color:#cbd5e1">6</span>
+              <span style="font-size:10px;color:#cbd5e1">4</span>
+              <span style="font-size:10px;color:#cbd5e1">2</span>
+              <span style="font-size:10px;color:#cbd5e1">0</span>
             </div>
           </div>
 
-          <!-- Bar chart built by JS -->
-          <div class="bar-chart" id="bar-chart"></div>
+          <!-- X-axis month labels -->
+          <div style="display:flex;justify-content:space-between;padding:0 2px;margin-bottom:10px">
+            <span style="font-size:10px;color:#94a3b8">Jan</span>
+            <span style="font-size:10px;color:#94a3b8">Feb</span>
+            <span style="font-size:10px;color:#94a3b8">Mar</span>
+            <span style="font-size:10px;color:#94a3b8">Apr</span>
+            <span style="font-size:10px;color:#94a3b8">May</span>
+            <span style="font-size:10px;color:#94a3b8">Jun</span>
+            <span style="font-size:10px;color:#94a3b8">Jul</span>
+            <span style="font-size:10px;color:#94a3b8">Aug</span>
+            <span style="font-size:10px;color:#94a3b8">Sep</span>
+            <span style="font-size:10px;color:#94a3b8">Oct</span>
+            <span style="font-size:10px;color:#94a3b8">Nov</span>
+            <span style="font-size:10px;color:#94a3b8">Dec</span>
+          </div>
+
+          <div class="bar-legend">
+            <div class="legend-item"><span class="dot dot-green"></span> Active</div>
+            <div class="legend-item"><span class="dot dot-navy"></span> Expired</div>
+          </div>
         </div>
 
-        <!-- Activity -->
-        <div>
-          <div class="activity-header">
-            <div class="activity-title">Activity</div>
-            <div class="activity-sub">Track your activity.</div>
+        <!-- Activity card -->
+        <div class="activity-card">
+          <div class="act-head">
+            <div class="chart-title">Recent Activity</div>
+            <a href="claims.html" class="view-all">View all</a>
           </div>
-          <div class="act-cards">
-
-            <!-- Active Policies -->
-            <div class="act-card">
-              <div class="act-icon"><i class="ti ti-file-text"></i></div>
-              <div class="act-name">Active Policies</div>
-              <div class="act-change" style="color:#22c55e">↑ +2.5%</div>
-              <div class="act-value" id="act-policies">-</div>
-              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
-                <polyline points="0,35 15,28 30,32 45,18 60,22 75,12 90,18 100,10"
-                  fill="none" stroke="#e85d26" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-
-            <!-- Total Claims -->
-            <div class="act-card">
-              <div class="act-icon"><i class="ti ti-clipboard-list"></i></div>
-              <div class="act-name">Total Claims</div>
-              <div class="act-change" style="color:#22c55e">↑ +4.5%</div>
-              <div class="act-value" id="act-claims">-</div>
-              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
-                <polyline points="0,30 15,35 30,25 45,30 60,20 75,28 90,22 100,18"
-                  fill="none" stroke="#e85d26" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-
-            <!-- Pending (dark) -->
-            <div class="act-card dark">
-              <div class="act-icon"><i class="ti ti-clock"></i></div>
-              <div class="act-name">Pending Claims</div>
-              <div class="act-change" style="color:#e85d26">↓ -1.5%</div>
-              <div class="act-value" id="act-pending">-</div>
-              <svg class="sparkline" viewBox="0 0 100 40" preserveAspectRatio="none">
-                <polyline points="0,15 15,20 30,12 45,25 60,18 75,30 90,22 100,28"
-                  fill="none" stroke="#e85d26" stroke-width="2.2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-
-          </div>
+          <div class="act-list" id="act-list"></div>
         </div>
+
       </div>
 
-      <!-- MINI STATS -->
-      <div class="mini-grid">
-        <div class="mini-card">
-          <div class="mini-label"><i class="ti ti-trending-up" style="color:#22c55e;font-size:14px"></i> Weekly average</div>
-          <div class="mini-change">↑ +11.5%</div>
-          <div class="mini-value">25,460.00</div>
-        </div>
-        <div class="mini-card">
-          <div class="mini-label"><i class="ti ti-chart-line" style="color:#22c55e;font-size:14px"></i> Annual average</div>
-          <div class="mini-change">↑ +11.5%</div>
-          <div class="mini-value">25,460.00</div>
-        </div>
-      </div>
+      <!-- BOTTOM ROW -->
+      <div class="bottom-row">
 
-      <!-- TRANSACTIONS -->
-      <div class="card">
-        <div class="txn-head">
-          <div>
-            <div class="card-title">Transactions history</div>
-            <div class="card-sub">Track your history.</div>
+        <!-- Recent policies -->
+        <div class="table-card">
+          <div class="table-head">
+            <div class="chart-title">Recent Policies</div>
+            <a href="policies.html" class="view-all">View all →</a>
           </div>
-          <div class="filter-btn"><i class="ti ti-adjustments-horizontal"></i></div>
+          <table class="dt">
+            <thead><tr><th>Policy ID</th><th>Customer</th><th>Type</th><th>Status</th></tr></thead>
+            <tbody id="tbl-policies"></tbody>
+          </table>
         </div>
-        <table class="txn">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>ID</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody id="txn-body"></tbody>
-        </table>
-      </div>
 
+        <!-- Recent claims -->
+        <div class="table-card">
+          <div class="table-head">
+            <div class="chart-title">Recent Claims</div>
+            <a href="claims.html" class="view-all">View all →</a>
+          </div>
+          <table class="dt">
+            <thead><tr><th>Claim ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody id="tbl-claims"></tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
 <script src="data.js"></script>
 <script>
+  document.getElementById('s-policies').textContent  = policies.length;
+  document.getElementById('s-claims').textContent    = claims.filter(c => c.status === 'Submitted' || c.status === 'Under Review').length;
+  document.getElementById('s-customers').textContent = customers.length;
+  document.getElementById('s-pending').textContent   = policies.filter(p => p.status === 'Pending').length;
 
-  // ===== BAR CHART =====
-  const bars = [38, 52, 44, 68, 82, 74, 90, 58, 44, 50, 38, 32];
-  const highlighted = [3, 4, 5, 6]; // orange bars
-  const chartEl = document.getElementById('bar-chart');
+  // ===== AREA CHART =====
+  const activeData  = [3, 4, 5, 3, 6, 5, 4, 6, 5, 4, 3, 4];
+  const expiredData = [1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1];
+  const W = 500, H = 130, maxVal = 8, pad = 10;
 
-  bars.forEach((h, i) => {
-    const col = document.createElement('div');
-    col.className = 'bar-col';
-    const bar = document.createElement('div');
-    bar.className = 'bar ' + (highlighted.includes(i) ? 'bar-on' : 'bar-off');
-    bar.style.height = h + '%';
-    col.appendChild(bar);
-    chartEl.appendChild(col);
+  function toX(i) { return pad + (i / 11) * (W - pad * 2); }
+  function toY(v) { return H - pad - (v / maxVal) * (H - pad * 2); }
+
+  function makePath(data) {
+    return data.map((v, i) => `${i === 0 ? 'M' : 'L'}${toX(i)},${toY(v)}`).join(' ');
+  }
+
+  function makeArea(data) {
+    const line = makePath(data);
+    const last = toX(11), first = toX(0);
+    return `${line} L${last},${H} L${first},${H} Z`;
+  }
+
+  document.getElementById('line-active').setAttribute('d', makePath(activeData));
+  document.getElementById('area-active').setAttribute('d', makeArea(activeData));
+  document.getElementById('line-expired').setAttribute('d', makePath(expiredData));
+  document.getElementById('area-expired').setAttribute('d', makeArea(expiredData));
+
+  // Dots on active line
+  const dotsG = document.getElementById('dots-active');
+  activeData.forEach((v, i) => {
+    dotsG.innerHTML += `
+      <circle cx="${toX(i)}" cy="${toY(v)}" r="3.5"
+        fill="#fff" stroke="#10b981" stroke-width="2.5"/>`;
   });
 
-  // ===== ACTIVITY STATS from data.js =====
-  document.getElementById('act-policies').textContent = policies.filter(p => p.status === 'Active').length;
-  document.getElementById('act-claims').textContent   = claims.length;
-  document.getElementById('act-pending').textContent  = claims.filter(c => c.status === 'Submitted' || c.status === 'Under Review').length;
+  // Activity feed
+  const events = [
+    { icon:'ti-file-text',      color:'teal',  text:'New policy created',   sub:'POL-2024-0912 · Emeka Dike',  time:'2h ago' },
+    { icon:'ti-clipboard-list', color:'navy',  text:'Claim filed',           sub:'CLM-2024-0891 · Maria Santos', time:'5h ago' },
+    { icon:'ti-check',          color:'green', text:'Claim approved',        sub:'CLM-2024-0880 · James Okafor',time:'1d ago' },
+    { icon:'ti-x',              color:'red',   text:'Claim rejected',        sub:'CLM-2024-0820 · Amaka Nwosu', time:'2d ago' },
+    { icon:'ti-alert-circle',   color:'amber', text:'Policy expired',        sub:'POL-2021-0190 · Amaka Nwosu', time:'3d ago' },
+  ];
+  const al = document.getElementById('act-list');
+  events.forEach(e => {
+    al.innerHTML += `
+      <div class="act-item">
+        <div class="act-ico ${e.color}"><i class="ti ${e.icon}"></i></div>
+        <div class="act-info">
+          <div class="act-text">${e.text}</div>
+          <div class="act-sub">${e.sub}</div>
+        </div>
+        <div class="act-time">${e.time}</div>
+      </div>`;
+  });
 
-  // ===== TRANSACTIONS =====
-  const iconColors = ['#e85d26', '#1a1a1a', '#22c55e', '#2563eb', '#8b5cf6'];
-
-  const txnBody = document.getElementById('txn-body');
-
-  claims.slice(0, 5).forEach((c, i) => {
-    const approved = c.status === 'Approved';
-    const amount   = approved ? '+' + c.amount : '-' + c.amount;
-    const amtClass = approved ? 'amt-pos' : 'amt-neg';
-
-    let badgeClass = 's-pending', dotClass = 'd-pending';
-    if (c.status === 'Approved')     { badgeClass = 's-approved'; dotClass = 'd-approved'; }
-    if (c.status === 'Rejected')     { badgeClass = 's-rejected'; dotClass = 'd-rejected'; }
-    if (c.status === 'Under Review') { badgeClass = 's-review';   dotClass = 'd-review'; }
-
-    txnBody.innerHTML += `
+  // Tables
+  policies.slice(0,5).forEach(p => {
+    document.getElementById('tbl-policies').innerHTML += `
       <tr>
-        <td>
-          <div class="txn-name-wrap">
-            <div class="txn-icon" style="background:${iconColors[i % iconColors.length]}">${c.customer[0]}</div>
-            <span class="txn-name">${c.type}</span>
-          </div>
-        </td>
-        <td class="txn-id">#${i + 1}</td>
-        <td>
-          <span class="s-badge ${badgeClass}">
-            <span class="s-dot ${dotClass}"></span>
-            ${c.status}
-          </span>
-        </td>
-        <td class="txn-date">${c.filed}</td>
-        <td class="${amtClass}">${amount}</td>
-      </tr>
-    `;
+        <td class="id-cell">${p.id}</td>
+        <td>${p.customer}</td>
+        <td>${p.type}</td>
+        <td><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></td>
+      </tr>`;
   });
 
+  claims.slice(0,5).forEach(c => {
+    document.getElementById('tbl-claims').innerHTML += `
+      <tr>
+        <td class="id-cell">${c.id}</td>
+        <td>${c.customer}</td>
+        <td class="mono">${c.amount}</td>
+        <td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td>
+      </tr>`;
+  });
 </script>
 </body>
 </html>

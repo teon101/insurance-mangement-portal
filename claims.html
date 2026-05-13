@@ -1,373 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>InsurePortal | Claims</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dash.css"/>
 </head>
 <body>
-
 <div class="app">
 
-  <!-- ===== SIDEBAR ===== -->
-  <div class="sidebar">
-    <div class="logo">
-      <div class="logo-title">&#128737; InsurePortal</div>
-      <div class="logo-sub">Management System</div>
-    </div>
-
-    <div class="nav-label">Overview</div>
-    <a href="index.html" class="nav-item">
-      <i class="ti ti-layout-dashboard"></i> Dashboard
-    </a>
-
-    <div class="nav-label">Management</div>
-    <a href="policies.html" class="nav-item">
-      <i class="ti ti-file-text"></i> Policies
-    </a>
-    <a href="claims.html" class="nav-item active">
-      <i class="ti ti-clipboard-list"></i> Claims
-    </a>
-    <a href="customers.html" class="nav-item">
-      <i class="ti ti-users"></i> Customers
-    </a>
-
-    <div class="nav-label">System</div>
-    <a href="settings.html" class="nav-item">
-      <i class="ti ti-settings"></i> Settings
-    </a>
-  </div>
-
-  <!-- ===== MAIN ===== -->
-  <div class="main">
-
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="topbar-title">Claims Management</div>
-      <div class="topbar-right">
-        <span>Admin User</span>
-        <div class="avatar">AD</div>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="brand-text">
+        <div class="brand-name">InsurePortal</div>
+        <div class="brand-tag">Management System</div>
       </div>
     </div>
+    <nav class="nav">
+      <div class="nav-group-label">Main</div>
+      <a href="index.html"     class="nav-link"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="policies.html"  class="nav-link"><i class="ti ti-file-text"></i><span>Policies</span></a>
+      <a href="claims.html"    class="nav-link active"><i class="ti ti-clipboard-list"></i><span>Claims</span></a>
+      <a href="customers.html" class="nav-link"><i class="ti ti-users"></i><span>Customers</span></a>
+      <div class="nav-group-label">System</div>
+      <a href="settings.html"  class="nav-link"><i class="ti ti-settings"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="su-avatar">T</div>
+      <div class="su-info">
+        <div class="su-name">Teon</div>
+        <div class="su-role">Administrator</div>
+      </div>
+    </div>
+  </aside>
 
-    <!-- Content -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-title">Claims Management</div>
+        <div class="page-sub">Review and manage all insurance claims</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-primary" onclick="openModal()"><i class="ti ti-plus"></i> File Claim</button>
+      </div>
+    </header>
+
     <div class="content">
 
-      <!-- Stat Cards -->
-      <div class="stats-grid">
+      <!-- Stat cards -->
+      <div class="stat-grid">
         <div class="stat-card">
-          <div class="stat-label">Total Claims</div>
-          <div class="stat-value" id="total-claims">0</div>
+          <div class="stat-icon navy"><i class="ti ti-clipboard-list"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Claims</div>
+            <div class="stat-val" id="s-total">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Submitted</div>
-          <div class="stat-value" id="submitted-count">0</div>
+          <div class="stat-icon amber"><i class="ti ti-send"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Submitted</div>
+            <div class="stat-val" id="s-submitted">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Under Review</div>
-          <div class="stat-value" id="review-count">0</div>
+          <div class="stat-icon teal"><i class="ti ti-eye"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Under Review</div>
+            <div class="stat-val" id="s-review">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Approved</div>
-          <div class="stat-value" id="approved-count">0</div>
+          <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Approved</div>
+            <div class="stat-val" id="s-approved">0</div>
+          </div>
         </div>
       </div>
 
-      <!-- Claims Table -->
+      <!-- Table card -->
       <div class="section-card">
-
-        <!-- Status Tabs -->
+        <!-- Tabs -->
         <div class="tab-bar">
-          <div class="tab active" onclick="setTab('all', this)">All Claims</div>
-          <div class="tab" onclick="setTab('Submitted', this)">Submitted</div>
-          <div class="tab" onclick="setTab('Under Review', this)">Under Review</div>
-          <div class="tab" onclick="setTab('Approved', this)">Approved</div>
-          <div class="tab" onclick="setTab('Rejected', this)">Rejected</div>
+          <div class="tab active" onclick="setTab('all',this)">All Claims</div>
+          <div class="tab" onclick="setTab('Submitted',this)">Submitted</div>
+          <div class="tab" onclick="setTab('Under Review',this)">Under Review</div>
+          <div class="tab" onclick="setTab('Approved',this)">Approved</div>
+          <div class="tab" onclick="setTab('Rejected',this)">Rejected</div>
         </div>
 
         <div class="section-header">
-          <!-- Search -->
           <div class="search-wrap">
             <i class="ti ti-search"></i>
-            <input
-              class="search-input"
-              type="text"
-              id="search"
-              placeholder="Search by ID or customer..."
-              oninput="renderTable()"
-            />
+            <input class="search-input" type="text" id="search" placeholder="Search by ID or customer..." oninput="render()"/>
           </div>
-
-          <!-- File Claim Button -->
-          <button class="btn btn-primary" onclick="openModal()">
-            <i class="ti ti-plus"></i> File Claim
-          </button>
+          <button class="btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus"></i> File Claim</button>
         </div>
 
-        <!-- Table -->
-        <table>
+        <table class="dt">
           <thead>
             <tr>
-              <th>Claim ID</th>
-              <th>Policy ID</th>
-              <th>Customer</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Filed</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Claim ID</th><th>Policy ID</th><th>Customer</th>
+              <th>Type</th><th>Amount</th><th>Filed</th><th>Status</th><th>Action</th>
             </tr>
           </thead>
-          <tbody id="claims-body"></tbody>
+          <tbody id="tbody"></tbody>
         </table>
-
-        <!-- Empty state -->
-        <div id="empty-state" style="display:none; padding:3rem; text-align:center; color:#888; font-size:14px;">
-          No claims found.
-        </div>
-
+        <div class="empty-state" id="empty" style="display:none">No claims found.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== FILE CLAIM MODAL ===== -->
-<div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; padding:1.5rem; width:480px; max-width:95vw;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:15px; font-weight:600;">File New Claim</h3>
-      <button onclick="closeModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">&times;</button>
+<!-- FILE CLAIM MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">File New Claim</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+    <div class="form-grid">
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Customer Name</label>
-        <input type="text" id="new-customer" placeholder="e.g. John Doe" style="width:100%"/>
+        <label class="field-label">Customer Name</label>
+        <input type="text" id="n-customer" placeholder="e.g. John Doe" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Policy ID</label>
-        <input type="text" id="new-policy-id" placeholder="e.g. POL-2023-0512" style="width:100%"/>
+        <label class="field-label">Policy ID</label>
+        <input type="text" id="n-policy" placeholder="e.g. POL-2023-0512" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Claim Type</label>
-        <select id="new-type" style="width:100%">
-          <option>Medical</option>
-          <option>Auto Accident</option>
-          <option>Property Damage</option>
-          <option>Hospital Stay</option>
-          <option>Life Benefit</option>
+        <label class="field-label">Claim Type</label>
+        <select id="n-type" style="width:100%">
+          <option>Medical</option><option>Auto Accident</option>
+          <option>Property Damage</option><option>Hospital Stay</option><option>Life Benefit</option>
         </select>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Amount</label>
-        <input type="text" id="new-amount" placeholder="e.g. $1,500" style="width:100%"/>
+        <label class="field-label">Amount</label>
+        <input type="text" id="n-amount" placeholder="e.g. $1,500" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Date Filed</label>
-        <input type="text" id="new-date" placeholder="e.g. Jan 15, 2025" style="width:100%"/>
+        <label class="field-label">Date Filed</label>
+        <input type="text" id="n-date" placeholder="e.g. Jan 15, 2025" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Status</label>
-        <select id="new-status" style="width:100%">
-          <option>Submitted</option>
-          <option>Under Review</option>
-        </select>
+        <label class="field-label">Status</label>
+        <select id="n-status" style="width:100%"><option>Submitted</option><option>Under Review</option></select>
       </div>
     </div>
-
-    <div id="modal-error" style="color:#dc2626;font-size:12px;margin-bottom:10px;display:none;">
-      Please fill in all fields.
-    </div>
-
-    <div style="display:flex;justify-content:flex-end;gap:8px;">
-      <button class="btn" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="addClaim()">Submit Claim</button>
+    <div class="error-msg" id="err">Please fill in all fields.</div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="addClaim()">Submit Claim</button>
     </div>
   </div>
 </div>
 
-<!-- ===== VIEW / UPDATE CLAIM MODAL ===== -->
-<div id="view-modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; padding:1.5rem; width:440px; max-width:95vw;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:15px; font-weight:600;">Claim Details</h3>
-      <button onclick="closeViewModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">&times;</button>
+<!-- VIEW CLAIM MODAL -->
+<div class="modal-overlay" id="view-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Claim Details</div>
+      <button class="modal-close" onclick="closeView()">&times;</button>
     </div>
-
-    <!-- Claim info display -->
     <div id="view-content" style="font-size:13px; margin-bottom:1.25rem;"></div>
-
-    <!-- Update status -->
     <div style="margin-bottom:1rem;">
-      <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Update Status</label>
+      <label class="field-label">Update Status</label>
       <select id="update-status" style="width:100%">
-        <option>Submitted</option>
-        <option>Under Review</option>
-        <option>Approved</option>
-        <option>Rejected</option>
+        <option>Submitted</option><option>Under Review</option>
+        <option>Approved</option><option>Rejected</option>
       </select>
     </div>
-
-    <div style="display:flex;justify-content:flex-end;gap:8px;">
-      <button class="btn" onclick="closeViewModal()">Close</button>
-      <button class="btn btn-primary" onclick="updateStatus()">Update Status</button>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeView()">Close</button>
+      <button class="btn-primary" onclick="updateStatus()"><i class="ti ti-refresh"></i> Update Status</button>
     </div>
   </div>
 </div>
-
 
 <script src="data.js"></script>
 <script>
-
-  // Track which tab is active and which claim is being viewed
   let activeTab = 'all';
-  let viewingClaimId = null;
+  let viewingId = null;
 
-  // ===== RENDER TABLE =====
-  function renderTable() {
-    const search = document.getElementById('search').value.toLowerCase();
+  function updateStats() {
+    document.getElementById('s-total').textContent    = claims.length;
+    document.getElementById('s-submitted').textContent= claims.filter(c=>c.status==='Submitted').length;
+    document.getElementById('s-review').textContent   = claims.filter(c=>c.status==='Under Review').length;
+    document.getElementById('s-approved').textContent = claims.filter(c=>c.status==='Approved').length;
+  }
 
-    // Filter by tab and search
-    const filtered = claims.filter(c => {
-      const matchTab    = activeTab === 'all' || c.status === activeTab;
-      const matchSearch = c.id.toLowerCase().includes(search) || c.customer.toLowerCase().includes(search);
-      return matchTab && matchSearch;
-    });
-
-    const body  = document.getElementById('claims-body');
-    const empty = document.getElementById('empty-state');
-
-    if (filtered.length === 0) {
-      body.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    empty.style.display = 'none';
-
+  function render() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const filtered = claims.filter(c =>
+      (activeTab==='all' || c.status===activeTab) &&
+      (!q || c.id.toLowerCase().includes(q) || c.customer.toLowerCase().includes(q))
+    );
+    const body  = document.getElementById('tbody');
+    const empty = document.getElementById('empty');
+    if (!filtered.length) { body.innerHTML=''; empty.style.display='block'; return; }
+    empty.style.display='none';
     body.innerHTML = filtered.map(c => `
       <tr>
-        <td style="color:#2563eb; font-weight:500">${c.id}</td>
-        <td>${c.policyId}</td>
+        <td class="id-cell">${c.id}</td>
+        <td class="id-cell" style="color:#475569">${c.policyId}</td>
         <td>${c.customer}</td>
         <td>${c.type}</td>
-        <td>${c.amount}</td>
-        <td>${c.filed}</td>
+        <td class="mono">${c.amount}</td>
+        <td style="color:#94a3b8;font-size:12.5px">${c.filed}</td>
         <td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td>
         <td>
-          <button class="btn btn-sm" onclick="openViewModal('${c.id}')">
+          <button class="btn-outline btn-sm" onclick="openView('${c.id}')">
             <i class="ti ti-eye"></i> View
           </button>
         </td>
-      </tr>
-    `).join('');
+      </tr>`).join('');
   }
 
-  // ===== UPDATE STAT CARDS =====
-  function updateStats() {
-    document.getElementById('total-claims').textContent     = claims.length;
-    document.getElementById('submitted-count').textContent  = claims.filter(c => c.status === 'Submitted').length;
-    document.getElementById('review-count').textContent     = claims.filter(c => c.status === 'Under Review').length;
-    document.getElementById('approved-count').textContent   = claims.filter(c => c.status === 'Approved').length;
-  }
-
-  // ===== TABS =====
   function setTab(tab, el) {
     activeTab = tab;
-    // Update active tab style
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
     el.classList.add('active');
-    renderTable();
+    render();
   }
 
-  // ===== FILE CLAIM MODAL =====
-  function openModal() {
-    document.getElementById('modal-overlay').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('modal-overlay').style.display = 'none';
-    document.getElementById('modal-error').style.display = 'none';
-  }
+  function openModal()  { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); document.getElementById('err').style.display='none'; }
 
   function addClaim() {
-    const customer  = document.getElementById('new-customer').value.trim();
-    const policyId  = document.getElementById('new-policy-id').value.trim();
-    const type      = document.getElementById('new-type').value;
-    const amount    = document.getElementById('new-amount').value.trim();
-    const filed     = document.getElementById('new-date').value.trim();
-    const status    = document.getElementById('new-status').value;
-
-    // Validate
-    if (!customer || !policyId || !amount || !filed) {
-      document.getElementById('modal-error').style.display = 'block';
-      return;
-    }
-
-    // Generate new claim ID
-    const newId = 'CLM-2025-0' + (claims.length + 1).toString().padStart(3, '0');
-
-    // Add to claims array
-    claims.push({ id: newId, policyId, customer, type, amount, filed, status });
-
+    const cu = document.getElementById('n-customer').value.trim();
+    const po = document.getElementById('n-policy').value.trim();
+    const ty = document.getElementById('n-type').value;
+    const am = document.getElementById('n-amount').value.trim();
+    const dt = document.getElementById('n-date').value.trim();
+    const st = document.getElementById('n-status').value;
+    if (!cu||!po||!am||!dt) { document.getElementById('err').style.display='block'; return; }
+    const id = 'CLM-2025-0' + String(claims.length+1).padStart(3,'0');
+    claims.push({id,policyId:po,customer:cu,type:ty,amount:am,filed:dt,status:st});
     closeModal();
-    updateStats();
-    renderTable();
-
-    // Clear fields
-    document.getElementById('new-customer').value = '';
-    document.getElementById('new-policy-id').value = '';
-    document.getElementById('new-amount').value = '';
-    document.getElementById('new-date').value = '';
+    updateStats(); render();
+    ['n-customer','n-policy','n-amount','n-date'].forEach(id=>document.getElementById(id).value='');
   }
 
-  // ===== VIEW & UPDATE CLAIM MODAL =====
-  function openViewModal(id) {
-    viewingClaimId = id;
-    const c = claims.find(c => c.id === id);
-
-    // Build the details display
+  function openView(id) {
+    viewingId = id;
+    const c = claims.find(x=>x.id===id);
     document.getElementById('view-content').innerHTML = `
-      <table style="width:100%; border-collapse:collapse;">
-        <tr><td style="padding:8px 0; color:#888; width:40%">Claim ID</td><td style="font-weight:500; color:#2563eb">${c.id}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Policy ID</td><td style="border-top:1px solid #f0f0f0">${c.policyId}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Customer</td><td style="border-top:1px solid #f0f0f0">${c.customer}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Type</td><td style="border-top:1px solid #f0f0f0">${c.type}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Amount</td><td style="border-top:1px solid #f0f0f0">${c.amount}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Filed</td><td style="border-top:1px solid #f0f0f0">${c.filed}</td></tr>
-        <tr><td style="padding:8px 0; color:#888; border-top:1px solid #f0f0f0">Status</td><td style="border-top:1px solid #f0f0f0"><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td></tr>
-      </table>
-    `;
-
-    // Set the dropdown to current status
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <tr><td style="padding:8px 0;color:#94a3b8;width:40%">Claim ID</td><td style="font-weight:700;color:#0f2044">${c.id}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Policy ID</td><td>${c.policyId}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Customer</td><td>${c.customer}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Type</td><td>${c.type}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Amount</td><td style="font-family:monospace;font-weight:600">${c.amount}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Filed</td><td>${c.filed}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Status</td><td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td></tr>
+      </table>`;
     document.getElementById('update-status').value = c.status;
-
-    document.getElementById('view-modal-overlay').style.display = 'flex';
+    document.getElementById('view-modal').classList.add('open');
   }
 
-  function closeViewModal() {
-    document.getElementById('view-modal-overlay').style.display = 'none';
-    viewingClaimId = null;
-  }
+  function closeView() { document.getElementById('view-modal').classList.remove('open'); viewingId=null; }
 
   function updateStatus() {
-    const newStatus = document.getElementById('update-status').value;
-    // Find the claim in the array and update its status
-    const claim = claims.find(c => c.id === viewingClaimId);
-    if (claim) {
-      claim.status = newStatus;
-    }
-    closeViewModal();
-    updateStats();
-    renderTable();
+    const s = document.getElementById('update-status').value;
+    const c = claims.find(x=>x.id===viewingId);
+    if (c) c.status = s;
+    closeView(); updateStats(); render();
   }
 
-  // Init
-  updateStats();
-  renderTable();
-
+  updateStats(); render();
 </script>
 </body>
 </html>

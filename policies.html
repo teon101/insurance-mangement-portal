@@ -1,305 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>InsurePortal | Policies</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="dash.css"/>
 </head>
 <body>
-
 <div class="app">
 
-  <!-- ===== SIDEBAR ===== -->
-  <div class="sidebar">
-    <div class="logo">
-      <div class="logo-title">&#128737; InsurePortal</div>
-      <div class="logo-sub">Management System</div>
-    </div>
-
-    <div class="nav-label">Overview</div>
-    <a href="index.html" class="nav-item">
-      <i class="ti ti-layout-dashboard"></i> Dashboard
-    </a>
-
-    <div class="nav-label">Management</div>
-    <a href="policies.html" class="nav-item active">
-      <i class="ti ti-file-text"></i> Policies
-    </a>
-    <a href="claims.html" class="nav-item">
-      <i class="ti ti-clipboard-list"></i> Claims
-    </a>
-    <a href="customers.html" class="nav-item">
-      <i class="ti ti-users"></i> Customers
-    </a>
-
-    <div class="nav-label">System</div>
-    <a href="settings.html" class="nav-item">
-      <i class="ti ti-settings"></i> Settings
-    </a>
-  </div>
-
-  <!-- ===== MAIN ===== -->
-  <div class="main">
-
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="topbar-title">Policy Management</div>
-      <div class="topbar-right">
-        <span>Admin User</span>
-        <div class="avatar">AD</div>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
+      <div class="brand-text">
+        <div class="brand-name">InsurePortal</div>
+        <div class="brand-tag">Management System</div>
       </div>
     </div>
+    <nav class="nav">
+      <div class="nav-group-label">Main</div>
+      <a href="index.html"     class="nav-link"><i class="ti ti-layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="policies.html"  class="nav-link active"><i class="ti ti-file-text"></i><span>Policies</span></a>
+      <a href="claims.html"    class="nav-link"><i class="ti ti-clipboard-list"></i><span>Claims</span></a>
+      <a href="customers.html" class="nav-link"><i class="ti ti-users"></i><span>Customers</span></a>
+      <div class="nav-group-label">System</div>
+      <a href="settings.html"  class="nav-link"><i class="ti ti-settings"></i><span>Settings</span></a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="su-avatar">T</div>
+      <div class="su-info">
+        <div class="su-name">Teon</div>
+        <div class="su-role">Administrator</div>
+      </div>
+    </div>
+  </aside>
 
-    <!-- Content -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-title">Policies</div>
+        <div class="page-sub">Manage all insurance policies</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-primary" onclick="openModal()"><i class="ti ti-plus"></i> New Policy</button>
+      </div>
+    </header>
+
     <div class="content">
 
-      <!-- Stat Cards -->
-      <div class="stats-grid">
+      <!-- Stat cards -->
+      <div class="stat-grid">
         <div class="stat-card">
-          <div class="stat-label">Total Policies</div>
-          <div class="stat-value" id="total-policies">0</div>
+          <div class="stat-icon navy"><i class="ti ti-files"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Total Policies</div>
+            <div class="stat-val" id="s-total">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Active</div>
-          <div class="stat-value" id="active-count">0</div>
+          <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Active</div>
+            <div class="stat-val" id="s-active">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Pending</div>
-          <div class="stat-value" id="pending-count">0</div>
+          <div class="stat-icon amber"><i class="ti ti-clock"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Pending</div>
+            <div class="stat-val" id="s-pending">0</div>
+          </div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Expired</div>
-          <div class="stat-value" id="expired-count">0</div>
+          <div class="stat-icon red"><i class="ti ti-circle-x"></i></div>
+          <div class="stat-body">
+            <div class="stat-label">Expired</div>
+            <div class="stat-val" id="s-expired">0</div>
+          </div>
         </div>
       </div>
 
-      <!-- Policies Table -->
+      <!-- Table card -->
       <div class="section-card">
         <div class="section-header">
-          <!-- Search & Filters -->
           <div class="filter-row">
             <div class="search-wrap">
               <i class="ti ti-search"></i>
-              <input
-                class="search-input"
-                type="text"
-                id="search"
-                placeholder="Search by ID or customer..."
-                oninput="renderTable()"
-              />
+              <input class="search-input" type="text" id="search" placeholder="Search by ID or customer..." oninput="render()"/>
             </div>
-            <select id="filter-type" onchange="renderTable()">
+            <select id="f-type" onchange="render()">
               <option value="">All types</option>
-              <option>Health</option>
-              <option>Auto</option>
-              <option>Life</option>
-              <option>Home</option>
+              <option>Health</option><option>Auto</option><option>Life</option><option>Home</option>
             </select>
-            <select id="filter-status" onchange="renderTable()">
+            <select id="f-status" onchange="render()">
               <option value="">All statuses</option>
-              <option>Active</option>
-              <option>Pending</option>
-              <option>Expired</option>
+              <option>Active</option><option>Pending</option><option>Expired</option>
             </select>
           </div>
-
-          <!-- Add Policy Button -->
-          <button class="btn btn-primary" onclick="openModal()">
-            <i class="ti ti-plus"></i> New Policy
-          </button>
+          <button class="btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus"></i> New Policy</button>
         </div>
 
-        <!-- Table -->
-        <table>
+        <table class="dt">
           <thead>
             <tr>
-              <th>Policy ID</th>
-              <th>Customer</th>
-              <th>Type</th>
-              <th>Premium</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th>Policy ID</th><th>Customer</th><th>Type</th>
+              <th>Premium</th><th>Start</th><th>End</th><th>Status</th><th>Action</th>
             </tr>
           </thead>
-          <tbody id="policies-body"></tbody>
+          <tbody id="tbody"></tbody>
         </table>
-
-        <!-- Empty state -->
-        <div id="empty-state" style="display:none; padding: 3rem; text-align:center; color:#888; font-size:14px;">
-          No policies match your search.
-        </div>
+        <div class="empty-state" id="empty" style="display:none">No policies match your search.</div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ===== ADD POLICY MODAL ===== -->
-<div id="modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:100; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:12px; padding:1.5rem; width:480px; max-width:95vw;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-      <h3 style="font-size:15px; font-weight:600;">Add New Policy</h3>
-      <button onclick="closeModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">&times;</button>
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Add New Policy</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
+    <div class="form-grid">
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Customer Name</label>
-        <input type="text" id="new-customer" placeholder="e.g. John Doe" style="width:100%"/>
+        <label class="field-label">Customer Name</label>
+        <input type="text" id="n-customer" placeholder="e.g. John Doe" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Policy Type</label>
-        <select id="new-type" style="width:100%">
-          <option>Health</option>
-          <option>Auto</option>
-          <option>Life</option>
-          <option>Home</option>
+        <label class="field-label">Policy Type</label>
+        <select id="n-type" style="width:100%">
+          <option>Health</option><option>Auto</option><option>Life</option><option>Home</option>
         </select>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Premium</label>
-        <input type="text" id="new-premium" placeholder="e.g. $200/mo" style="width:100%"/>
+        <label class="field-label">Premium</label>
+        <input type="text" id="n-premium" placeholder="e.g. $200/mo" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Status</label>
-        <select id="new-status" style="width:100%">
-          <option>Active</option>
-          <option>Pending</option>
-        </select>
+        <label class="field-label">Status</label>
+        <select id="n-status" style="width:100%"><option>Active</option><option>Pending</option></select>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">Start Date</label>
-        <input type="text" id="new-start" placeholder="e.g. Jan 2025" style="width:100%"/>
+        <label class="field-label">Start Date</label>
+        <input type="text" id="n-start" placeholder="e.g. Jan 2025" style="width:100%"/>
       </div>
       <div>
-        <label style="font-size:13px;font-weight:500;display:block;margin-bottom:6px;">End Date</label>
-        <input type="text" id="new-end" placeholder="e.g. Jan 2030" style="width:100%"/>
+        <label class="field-label">End Date</label>
+        <input type="text" id="n-end" placeholder="e.g. Jan 2030" style="width:100%"/>
       </div>
     </div>
-
-    <div id="modal-error" style="color:#dc2626;font-size:12px;margin-bottom:10px;display:none;">
-      Please fill in all fields.
-    </div>
-
-    <div style="display:flex;justify-content:flex-end;gap:8px;">
-      <button class="btn" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="addPolicy()">Add Policy</button>
+    <div class="error-msg" id="err">Please fill in all fields.</div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="addPolicy()">Add Policy</button>
     </div>
   </div>
 </div>
 
 <script src="data.js"></script>
 <script>
+  function updateStats() {
+    document.getElementById('s-total').textContent   = policies.length;
+    document.getElementById('s-active').textContent  = policies.filter(p=>p.status==='Active').length;
+    document.getElementById('s-pending').textContent = policies.filter(p=>p.status==='Pending').length;
+    document.getElementById('s-expired').textContent = policies.filter(p=>p.status==='Expired').length;
+  }
 
-  // ===== RENDER TABLE =====
-  function renderTable() {
-    const search = document.getElementById('search').value.toLowerCase();
-    const typeFilter = document.getElementById('filter-type').value;
-    const statusFilter = document.getElementById('filter-status').value;
-
-    // Filter the policies array based on search and dropdowns
-    const filtered = policies.filter(p => {
-      const matchSearch = p.id.toLowerCase().includes(search) || p.customer.toLowerCase().includes(search);
-      const matchType = !typeFilter || p.type === typeFilter;
-      const matchStatus = !statusFilter || p.status === statusFilter;
-      return matchSearch && matchType && matchStatus;
-    });
-
-    const body = document.getElementById('policies-body');
-    const empty = document.getElementById('empty-state');
-
-    // Show empty state if nothing found
-    if (filtered.length === 0) {
-      body.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
+  function render() {
+    const q  = document.getElementById('search').value.toLowerCase();
+    const ft = document.getElementById('f-type').value;
+    const fs = document.getElementById('f-status').value;
+    const filtered = policies.filter(p =>
+      (!q  || p.id.toLowerCase().includes(q) || p.customer.toLowerCase().includes(q)) &&
+      (!ft || p.type === ft) &&
+      (!fs || p.status === fs)
+    );
+    const body  = document.getElementById('tbody');
+    const empty = document.getElementById('empty');
+    if (!filtered.length) { body.innerHTML=''; empty.style.display='block'; return; }
     empty.style.display = 'none';
-
-    // Build table rows
     body.innerHTML = filtered.map(p => `
       <tr>
-        <td style="color:#2563eb; font-weight:500">${p.id}</td>
+        <td class="id-cell">${p.id}</td>
         <td>${p.customer}</td>
         <td>${p.type}</td>
-        <td>${p.premium}</td>
+        <td class="mono">${p.premium}</td>
         <td>${p.start}</td>
         <td>${p.end}</td>
         <td><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></td>
         <td>
-          <button class="btn btn-sm" onclick="viewPolicy('${p.id}')">
+          <button class="btn-outline btn-sm" onclick="viewPolicy('${p.id}')">
             <i class="ti ti-eye"></i> View
           </button>
         </td>
-      </tr>
-    `).join('');
+      </tr>`).join('');
   }
 
-  // ===== UPDATE STAT CARDS =====
-  function updateStats() {
-    document.getElementById('total-policies').textContent = policies.length;
-    document.getElementById('active-count').textContent = policies.filter(p => p.status === 'Active').length;
-    document.getElementById('pending-count').textContent = policies.filter(p => p.status === 'Pending').length;
-    document.getElementById('expired-count').textContent = policies.filter(p => p.status === 'Expired').length;
-  }
+  function openModal()  { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); document.getElementById('err').style.display='none'; }
 
-  // ===== MODAL CONTROLS =====
-  function openModal() {
-    document.getElementById('modal-overlay').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('modal-overlay').style.display = 'none';
-    document.getElementById('modal-error').style.display = 'none';
-  }
-
-  // ===== ADD NEW POLICY =====
   function addPolicy() {
-    const customer = document.getElementById('new-customer').value.trim();
-    const type     = document.getElementById('new-type').value;
-    const premium  = document.getElementById('new-premium').value.trim();
-    const status   = document.getElementById('new-status').value;
-    const start    = document.getElementById('new-start').value.trim();
-    const end      = document.getElementById('new-end').value.trim();
-
-    // Simple validation — all fields required
-    if (!customer || !premium || !start || !end) {
-      document.getElementById('modal-error').style.display = 'block';
-      return;
-    }
-
-    // Generate a new policy ID
-    const newId = 'POL-2025-0' + (policies.length + 1).toString().padStart(3, '0');
-
-    // Push to the shared policies array
-    policies.push({ id: newId, customer, type, premium, start, end, status });
-
+    const c = document.getElementById('n-customer').value.trim();
+    const t = document.getElementById('n-type').value;
+    const p = document.getElementById('n-premium').value.trim();
+    const s = document.getElementById('n-status').value;
+    const sd= document.getElementById('n-start').value.trim();
+    const ed= document.getElementById('n-end').value.trim();
+    if (!c||!p||!sd||!ed) { document.getElementById('err').style.display='block'; return; }
+    const id = 'POL-2025-0' + String(policies.length+1).padStart(3,'0');
+    policies.push({id,customer:c,type:t,premium:p,start:sd,end:ed,status:s});
     closeModal();
-    updateStats();
-    renderTable();
-
-    // Clear form
-    document.getElementById('new-customer').value = '';
-    document.getElementById('new-premium').value = '';
-    document.getElementById('new-start').value = '';
-    document.getElementById('new-end').value = '';
+    updateStats(); render();
+    ['n-customer','n-premium','n-start','n-end'].forEach(id=>document.getElementById(id).value='');
   }
 
-  // ===== VIEW POLICY =====
   function viewPolicy(id) {
-    const p = policies.find(p => p.id === id);
-    alert(`Policy Details\n\nID: ${p.id}\nCustomer: ${p.customer}\nType: ${p.type}\nPremium: ${p.premium}\nPeriod: ${p.start} → ${p.end}\nStatus: ${p.status}`);
+    const p = policies.find(x=>x.id===id);
+    alert(`Policy: ${p.id}\nCustomer: ${p.customer}\nType: ${p.type}\nPremium: ${p.premium}\nPeriod: ${p.start} → ${p.end}\nStatus: ${p.status}`);
   }
 
-  // Init on page load
-  updateStats();
-  renderTable();
-
+  updateStats(); render();
 </script>
 </body>
 </html>
