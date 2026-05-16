@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InsurePortal | Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .page {
+      display: flex;
+      width: 900px;
+      max-width: 98vw;
+      min-height: 520px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(15,32,68,0.13);
+    }
+    .left {
+      width: 42%;
+      background: #0f2044;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 3rem; }
+    .brand-icon {
+      width: 38px; height: 38px;
+      background: #10b981;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: #fff;
+    }
+    .brand-name { font-size: 17px; font-weight: 700; color: #fff; }
+    .brand-tag  { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .left-title { font-size: 24px; font-weight: 800; color: #fff; line-height: 1.3; margin-bottom: 1rem; letter-spacing: -0.5px; }
+    .left-sub   { font-size: 13.5px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 2.5rem; }
+    .features   { display: flex; flex-direction: column; gap: 12px; }
+    .feature    { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
+    .feature-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+    .right {
+      flex: 1;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+    }
+    .form-title { font-size: 22px; font-weight: 800; color: #0f2044; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .form-sub   { font-size: 13px; color: #94a3b8; margin-bottom: 2rem; }
+    .tabs {
+      display: flex; gap: 4px;
+      background: #f0f4f8;
+      border-radius: 10px; padding: 4px;
+      margin-bottom: 1.5rem;
+    }
+    .tab-btn {
+      flex: 1; padding: 8px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      border: none; cursor: pointer;
+      background: transparent; color: #94a3b8;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: #fff; color: #0f2044; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 12.5px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+    .field input {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid #e2e8f0; border-radius: 10px;
+      font-size: 13.5px; font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #0f2044; outline: none; transition: border-color 0.15s;
+    }
+    .field input:focus { border-color: #10b981; }
+    .btn-submit {
+      width: 100%; padding: 11px;
+      background: #10b981; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 14px; font-weight: 700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      cursor: pointer; margin-top: 0.5rem;
+      transition: background 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-submit:hover { background: #059669; }
+    .error-msg {
+      background: #fee2e2; color: #991b1b;
+      font-size: 12.5px; padding: 10px 14px;
+      border-radius: 8px; margin-bottom: 1rem;
+      display: none; font-weight: 500;
+    }
+    .switch-text { text-align: center; font-size: 12.5px; color: #94a3b8; margin-top: 1rem; }
+    .switch-text span { color: #10b981; font-weight: 600; cursor: pointer; }
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="left">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
+      <div>
+        <div class="brand-name">InsurePortal</div>
+        <div class="brand-tag">Management System</div>
+      </div>
+    </div>
+    <div class="left-title">Your insurance,<br/>managed smartly.</div>
+    <div class="left-sub">Track your policies, file claims and manage everything in one place.</div>
+    <div class="features">
+      <div class="feature"><div class="feature-dot"></div> Policy tracking & management</div>
+      <div class="feature"><div class="feature-dot"></div> Easy claims filing & updates</div>
+      <div class="feature"><div class="feature-dot"></div> Real-time dashboard insights</div>
+      <div class="feature"><div class="feature-dot"></div> Secure customer profiles</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="form-title">Welcome back 👋</div>
+    <div class="form-sub">Login or create an account to continue.</div>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+    <div class="error-msg" id="error"></div>
+
+    <!-- LOGIN -->
+    <div class="form-panel active" id="form-login">
+      <div class="field"><label>Email address</label><input type="email" id="login-email" placeholder="you@email.com"/></div>
+      <div class="field"><label>Password</label><input type="password" id="login-password" placeholder="Your password"/></div>
+      <button class="btn-submit" onclick="doLogin()"><i class="ti ti-login"></i> Login</button>
+      <div class="switch-text">No account? <span onclick="switchTab('register')">Register here</span></div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="form-panel" id="form-register">
+      <div class="field"><label>Full name</label><input type="text" id="reg-name" placeholder="e.g. Teon Smith"/></div>
+      <div class="field"><label>Email address</label><input type="email" id="reg-email" placeholder="you@email.com"/></div>
+      <div class="field"><label>Phone number</label><input type="tel" id="reg-phone" placeholder="e.g. +234 801 000 0000"/></div>
+      <div class="field"><label>Password</label><input type="password" id="reg-password" placeholder="Min. 6 characters"/></div>
+      <button class="btn-submit" onclick="doRegister()"><i class="ti ti-user-plus"></i> Create Account</button>
+      <div class="switch-text">Have an account? <span onclick="switchTab('login')">Login here</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Already logged in? go to dashboard
+  if (localStorage.getItem('ip_user')) window.location.href = 'index.html';
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('form-' + tab).classList.add('active');
+    document.getElementById('error').style.display = 'none';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function doRegister() {
+    const name     = document.getElementById('reg-name').value.trim();
+    const email    = document.getElementById('reg-email').value.trim();
+    const phone    = document.getElementById('reg-phone').value.trim();
+    const password = document.getElementById('reg-password').value;
+    if (!name || !email || !phone || !password) { showError('Please fill in all fields.'); return; }
+    if (password.length < 6) { showError('Password must be at least 6 characters.'); return; }
+
+    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
+    if (users.find(u => u.email === email)) { showError('Email already registered.'); return; }
+
+    const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    const since    = new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    const newUser  = { name, email, phone, password, initials, since };
+
+    users.push(newUser);
+    localStorage.setItem('ip_users', JSON.stringify(users));
+    localStorage.setItem('ip_user', JSON.stringify(newUser));
+
+    // Register user as a customer automatically
+    const customers = JSON.parse(localStorage.getItem('ip_customers') || '[]');
+    if (!customers.find(c => c.email === email)) {
+      customers.push({ name, initials, email, phone, policies: 0, claims: 0, since });
+      localStorage.setItem('ip_customers', JSON.stringify(customers));
+    }
+
+    window.location.href = 'index.html';
+  }
+
+  function doLogin() {
+    const email    = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    if (!email || !password) { showError('Please enter email and password.'); return; }
+
+    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
+    const user  = users.find(u => u.email === email && u.password === password);
+    if (!user) { showError('Invalid email or password.'); return; }
+
+    localStorage.setItem('ip_user', JSON.stringify(user));
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>

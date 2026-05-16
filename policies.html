@@ -29,9 +29,9 @@
       <a href="settings.html"  class="nav-link"><i class="ti ti-settings"></i><span>Settings</span></a>
     </nav>
     <div class="sidebar-user">
-      <div class="su-avatar">T</div>
+      <div class="su-avatar user-initials">T</div>
       <div class="su-info">
-        <div class="su-name">Teon</div>
+        <div class="su-name user-name">Teon</div>
         <div class="su-role">Administrator</div>
       </div>
     </div>
@@ -45,44 +45,31 @@
       </div>
       <div class="topbar-right">
         <button class="btn-primary" onclick="openModal()"><i class="ti ti-plus"></i> New Policy</button>
+        <button class="btn-outline" onclick="logout()" style="color:#ef4444;border-color:#fecaca"><i class="ti ti-logout"></i> Logout</button>
       </div>
     </header>
 
     <div class="content">
 
-      <!-- Stat cards -->
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-icon navy"><i class="ti ti-files"></i></div>
-          <div class="stat-body">
-            <div class="stat-label">Total Policies</div>
-            <div class="stat-val" id="s-total">0</div>
-          </div>
+          <div class="stat-body"><div class="stat-label">Total Policies</div><div class="stat-val" id="s-total">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
-          <div class="stat-body">
-            <div class="stat-label">Active</div>
-            <div class="stat-val" id="s-active">0</div>
-          </div>
+          <div class="stat-body"><div class="stat-label">Active</div><div class="stat-val" id="s-active">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon amber"><i class="ti ti-clock"></i></div>
-          <div class="stat-body">
-            <div class="stat-label">Pending</div>
-            <div class="stat-val" id="s-pending">0</div>
-          </div>
+          <div class="stat-body"><div class="stat-label">Pending</div><div class="stat-val" id="s-pending">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon red"><i class="ti ti-circle-x"></i></div>
-          <div class="stat-body">
-            <div class="stat-label">Expired</div>
-            <div class="stat-val" id="s-expired">0</div>
-          </div>
+          <div class="stat-body"><div class="stat-label">Expired</div><div class="stat-val" id="s-expired">0</div></div>
         </div>
       </div>
 
-      <!-- Table card -->
       <div class="section-card">
         <div class="section-header">
           <div class="filter-row">
@@ -104,10 +91,7 @@
 
         <table class="dt">
           <thead>
-            <tr>
-              <th>Policy ID</th><th>Customer</th><th>Type</th>
-              <th>Premium</th><th>Start</th><th>End</th><th>Status</th><th>Action</th>
-            </tr>
+            <tr><th>Policy ID</th><th>Customer</th><th>Type</th><th>Premium</th><th>Start</th><th>End</th><th>Status</th><th>Action</th></tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -117,7 +101,7 @@
   </div>
 </div>
 
-<!-- ADD MODAL -->
+<!-- ADD POLICY MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-head">
@@ -155,34 +139,69 @@
     <div class="error-msg" id="err">Please fill in all fields.</div>
     <div class="form-actions">
       <button class="btn-outline" onclick="closeModal()">Cancel</button>
-      <button class="btn-primary" onclick="addPolicy()">Add Policy</button>
+      <button class="btn-primary" onclick="addPolicy()"><i class="ti ti-plus"></i> Add Policy</button>
     </div>
   </div>
 </div>
 
+<!-- VIEW POLICY MODAL -->
+<div class="modal-overlay" id="view-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Policy Details</div>
+      <button class="modal-close" onclick="closeView()">&times;</button>
+    </div>
+    <div id="view-content" style="font-size:13px;margin-bottom:1.25rem"></div>
+    <div style="margin-bottom:1rem">
+      <label class="field-label">Update Status</label>
+      <select id="update-status" style="width:100%">
+        <option>Active</option><option>Pending</option><option>Expired</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" onclick="closeView()">Close</button>
+      <button class="btn-primary" onclick="updateStatus()"><i class="ti ti-refresh"></i> Update Status</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="ti ti-circle-check" style="color:#10b981;font-size:16px"></i><span id="toast-msg"></span></div>
+
 <script src="data.js"></script>
 <script>
+  requireLogin();
+  injectUser();
+
+  let viewingId = null;
+
   function updateStats() {
-    document.getElementById('s-total').textContent   = policies.length;
-    document.getElementById('s-active').textContent  = policies.filter(p=>p.status==='Active').length;
-    document.getElementById('s-pending').textContent = policies.filter(p=>p.status==='Pending').length;
-    document.getElementById('s-expired').textContent = policies.filter(p=>p.status==='Expired').length;
+    const p = getPolicies();
+    document.getElementById('s-total').textContent   = p.length;
+    document.getElementById('s-active').textContent  = p.filter(x => x.status === 'Active').length;
+    document.getElementById('s-pending').textContent = p.filter(x => x.status === 'Pending').length;
+    document.getElementById('s-expired').textContent = p.filter(x => x.status === 'Expired').length;
   }
 
   function render() {
+    const policies = getPolicies();
     const q  = document.getElementById('search').value.toLowerCase();
     const ft = document.getElementById('f-type').value;
     const fs = document.getElementById('f-status').value;
+
     const filtered = policies.filter(p =>
       (!q  || p.id.toLowerCase().includes(q) || p.customer.toLowerCase().includes(q)) &&
       (!ft || p.type === ft) &&
       (!fs || p.status === fs)
     );
+
     const body  = document.getElementById('tbody');
     const empty = document.getElementById('empty');
-    if (!filtered.length) { body.innerHTML=''; empty.style.display='block'; return; }
+
+    if (!filtered.length) { body.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
-    body.innerHTML = filtered.map(p => `
+
+    body.innerHTML = filtered.slice().reverse().map(p => `
       <tr>
         <td class="id-cell">${p.id}</td>
         <td>${p.customer}</td>
@@ -191,35 +210,76 @@
         <td>${p.start}</td>
         <td>${p.end}</td>
         <td><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></td>
-        <td>
-          <button class="btn-outline btn-sm" onclick="viewPolicy('${p.id}')">
-            <i class="ti ti-eye"></i> View
-          </button>
-        </td>
+        <td><button class="btn-outline btn-sm" onclick="openView('${p.id}')"><i class="ti ti-eye"></i> View</button></td>
       </tr>`).join('');
   }
 
   function openModal()  { document.getElementById('modal').classList.add('open'); }
-  function closeModal() { document.getElementById('modal').classList.remove('open'); document.getElementById('err').style.display='none'; }
-
-  function addPolicy() {
-    const c = document.getElementById('n-customer').value.trim();
-    const t = document.getElementById('n-type').value;
-    const p = document.getElementById('n-premium').value.trim();
-    const s = document.getElementById('n-status').value;
-    const sd= document.getElementById('n-start').value.trim();
-    const ed= document.getElementById('n-end').value.trim();
-    if (!c||!p||!sd||!ed) { document.getElementById('err').style.display='block'; return; }
-    const id = 'POL-2025-0' + String(policies.length+1).padStart(3,'0');
-    policies.push({id,customer:c,type:t,premium:p,start:sd,end:ed,status:s});
-    closeModal();
-    updateStats(); render();
-    ['n-customer','n-premium','n-start','n-end'].forEach(id=>document.getElementById(id).value='');
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('err').style.display = 'none';
   }
 
-  function viewPolicy(id) {
-    const p = policies.find(x=>x.id===id);
-    alert(`Policy: ${p.id}\nCustomer: ${p.customer}\nType: ${p.type}\nPremium: ${p.premium}\nPeriod: ${p.start} → ${p.end}\nStatus: ${p.status}`);
+  function addPolicy() {
+    const customer = document.getElementById('n-customer').value.trim();
+    const type     = document.getElementById('n-type').value;
+    const premium  = document.getElementById('n-premium').value.trim();
+    const status   = document.getElementById('n-status').value;
+    const start    = document.getElementById('n-start').value.trim();
+    const end      = document.getElementById('n-end').value.trim();
+
+    if (!customer || !premium || !start || !end) {
+      document.getElementById('err').style.display = 'block'; return;
+    }
+
+    const policies = getPolicies();
+    const id = 'POL-2025-0' + String(policies.length + 1).padStart(3, '0');
+    policies.push({ id, customer, type, premium, start, end, status });
+    savePolicies(policies);
+
+    // Update customer's policy count
+    const customers = getCustomers();
+    const cust = customers.find(c => c.name.toLowerCase() === customer.toLowerCase());
+    if (cust) { cust.policies += 1; saveCustomers(customers); }
+
+    closeModal();
+    updateStats(); render();
+    showToast('Policy added successfully!');
+    ['n-customer','n-premium','n-start','n-end'].forEach(id => document.getElementById(id).value = '');
+  }
+
+  function openView(id) {
+    viewingId = id;
+    const p = getPolicies().find(x => x.id === id);
+    document.getElementById('view-content').innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <tr><td style="padding:8px 0;color:#94a3b8;width:40%">Policy ID</td><td style="font-weight:700;color:#0f2044">${p.id}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Customer</td><td>${p.customer}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Type</td><td>${p.type}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Premium</td><td class="mono">${p.premium}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Period</td><td>${p.start} → ${p.end}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Status</td><td><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></td></tr>
+      </table>`;
+    document.getElementById('update-status').value = p.status;
+    document.getElementById('view-modal').classList.add('open');
+  }
+
+  function closeView() { document.getElementById('view-modal').classList.remove('open'); viewingId = null; }
+
+  function updateStatus() {
+    const newStatus = document.getElementById('update-status').value;
+    const policies  = getPolicies();
+    const p = policies.find(x => x.id === viewingId);
+    if (p) { p.status = newStatus; savePolicies(policies); }
+    closeView(); updateStats(); render();
+    showToast('Policy status updated!');
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
   updateStats(); render();
