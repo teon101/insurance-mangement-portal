@@ -29,9 +29,9 @@
       <a href="settings.html"  class="nav-link active"><i class="ti ti-settings"></i><span>Settings</span></a>
     </nav>
     <div class="sidebar-user">
-      <div class="su-avatar">T</div>
+      <div class="su-avatar user-initials">T</div>
       <div class="su-info">
-        <div class="su-name">Teon</div>
+        <div class="su-name user-name">Teon</div>
         <div class="su-role">Administrator</div>
       </div>
     </div>
@@ -43,130 +43,78 @@
         <div class="page-title">Settings</div>
         <div class="page-sub">Manage your portal preferences</div>
       </div>
+      <div class="topbar-right">
+        <button class="btn-outline" onclick="logout()" style="color:#ef4444;border-color:#fecaca"><i class="ti ti-logout"></i> Logout</button>
+      </div>
     </header>
 
     <div class="content">
       <div class="settings-layout">
 
-        <!-- Left settings nav -->
+        <!-- Left nav -->
         <div class="settings-nav">
-          <div class="settings-nav-item active" onclick="showPanel('profile', this)">
-            <i class="ti ti-user"></i> Profile
-          </div>
-          <div class="settings-nav-item" onclick="showPanel('company', this)">
-            <i class="ti ti-building"></i> Company
-          </div>
-          <div class="settings-nav-item" onclick="showPanel('notifications', this)">
-            <i class="ti ti-bell"></i> Notifications
-          </div>
-          <div class="settings-nav-item" onclick="showPanel('users', this)">
-            <i class="ti ti-users"></i> Users & Roles
-          </div>
-          <div class="settings-nav-item" onclick="showPanel('claims-rules', this)">
-            <i class="ti ti-clipboard-list"></i> Claims Rules
-          </div>
-          <div class="settings-nav-item" onclick="showPanel('security', this)">
-            <i class="ti ti-lock"></i> Security
-          </div>
+          <div class="settings-nav-item active" onclick="showPanel('profile', this)"><i class="ti ti-user"></i> Profile</div>
+          <div class="settings-nav-item" onclick="showPanel('password', this)"><i class="ti ti-lock"></i> Password</div>
+          <div class="settings-nav-item" onclick="showPanel('notifications', this)"><i class="ti ti-bell"></i> Notifications</div>
+          <div class="settings-nav-item" onclick="showPanel('company', this)"><i class="ti ti-building"></i> Company</div>
+          <div class="settings-nav-item" onclick="showPanel('claims-rules', this)"><i class="ti ti-clipboard-list"></i> Claims Rules</div>
+          <div class="settings-nav-item" onclick="showPanel('users', this)"><i class="ti ti-users"></i> Users</div>
         </div>
 
         <!-- Right panels -->
         <div>
 
-          <!-- PROFILE -->
+          <!-- PROFILE — reads from logged in user, saves back -->
           <div class="panel active" id="panel-profile">
             <div class="settings-card">
               <div class="settings-card-title">Personal Information</div>
-              <div class="settings-card-desc">Update your name, email and contact details.</div>
+              <div class="settings-card-desc">Changes here update your name across the entire portal.</div>
               <div class="two-col">
                 <div>
                   <label class="field-label">First name</label>
-                  <input type="text" value="Teon" style="width:100%"/>
+                  <input type="text" id="p-firstname" style="width:100%"/>
                 </div>
                 <div>
                   <label class="field-label">Last name</label>
-                  <input type="text" value="Admin" style="width:100%"/>
+                  <input type="text" id="p-lastname" style="width:100%"/>
                 </div>
               </div>
               <div style="margin-top:1rem">
                 <label class="field-label">Email address</label>
-                <input type="email" value="teon@insureportal.com" style="width:100%"/>
+                <input type="email" id="p-email" style="width:100%" readonly style="background:#f8fafc"/>
               </div>
               <div style="margin-top:1rem">
                 <label class="field-label">Phone number</label>
-                <input type="tel" value="+234 801 000 0000" style="width:100%"/>
+                <input type="tel" id="p-phone" style="width:100%"/>
               </div>
             </div>
-
-            <div class="settings-card">
-              <div class="settings-card-title">Preferences</div>
-              <div class="settings-card-desc">Set your language and timezone.</div>
-              <div class="two-col">
-                <div>
-                  <label class="field-label">Language</label>
-                  <select style="width:100%">
-                    <option>English</option><option>French</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="field-label">Timezone</label>
-                  <select style="width:100%">
-                    <option>Africa/Lagos (GMT+1)</option>
-                    <option>UTC</option>
-                    <option>Europe/London</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
             <div class="save-bar">
-              <button class="btn-outline">Cancel</button>
-              <button class="btn-primary" onclick="showToast('Profile saved successfully.')">
-                <i class="ti ti-check"></i> Save changes
-              </button>
+              <button class="btn-outline" onclick="loadProfile()">Cancel</button>
+              <button class="btn-primary" onclick="saveProfile()"><i class="ti ti-check"></i> Save changes</button>
             </div>
           </div>
 
-          <!-- COMPANY -->
-          <div class="panel" id="panel-company">
+          <!-- PASSWORD -->
+          <div class="panel" id="panel-password">
             <div class="settings-card">
-              <div class="settings-card-title">Company Details</div>
-              <div class="settings-card-desc">This info appears on customer-facing documents and emails.</div>
+              <div class="settings-card-title">Change Password</div>
+              <div class="settings-card-desc">Update your account password.</div>
               <div style="margin-bottom:1rem">
-                <label class="field-label">Company name</label>
-                <input type="text" value="InsurePortal Ltd" style="width:100%"/>
-              </div>
-              <div style="margin-bottom:1rem">
-                <label class="field-label">Company email</label>
-                <input type="email" value="support@insureportal.com" style="width:100%"/>
+                <label class="field-label">Current password</label>
+                <input type="password" id="pw-current" placeholder="Enter current password" style="width:100%"/>
               </div>
               <div style="margin-bottom:1rem">
-                <label class="field-label">Address</label>
-                <textarea style="width:100%">12 Marina Street, Lagos Island, Lagos, Nigeria</textarea>
+                <label class="field-label">New password</label>
+                <input type="password" id="pw-new" placeholder="Min. 6 characters" style="width:100%"/>
               </div>
-              <div class="two-col">
-                <div>
-                  <label class="field-label">Policy types offered</label>
-                  <select style="width:100%">
-                    <option>Health, Auto, Life, Home</option>
-                    <option>Health only</option>
-                    <option>Auto only</option>
-                  </select>
-                  <div class="field-hint">Which policy types your company handles.</div>
-                </div>
-                <div>
-                  <label class="field-label">Default billing cycle</label>
-                  <select style="width:100%">
-                    <option>Monthly</option><option>Quarterly</option><option>Annually</option>
-                  </select>
-                </div>
+              <div>
+                <label class="field-label">Confirm new password</label>
+                <input type="password" id="pw-confirm" placeholder="Repeat new password" style="width:100%"/>
               </div>
+              <div class="error-msg" id="pw-error"></div>
             </div>
             <div class="save-bar">
-              <button class="btn-outline">Cancel</button>
-              <button class="btn-primary" onclick="showToast('Company details saved.')">
-                <i class="ti ti-check"></i> Save changes
-              </button>
+              <button class="btn-primary" onclick="savePassword()"><i class="ti ti-check"></i> Update password</button>
             </div>
           </div>
 
@@ -176,111 +124,63 @@
               <div class="settings-card-title">Email Notifications</div>
               <div class="settings-card-desc">Choose which events trigger an email alert.</div>
               <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">New claim submitted</div>
-                  <div class="toggle-sub">Get notified when a customer files a claim</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
+                <div><div class="toggle-label">New claim submitted</div><div class="toggle-sub">Get notified when a claim is filed</div></div>
+                <label class="toggle"><input type="checkbox" id="n-claim" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Claim status changed</div>
-                  <div class="toggle-sub">Approved, rejected, or moved to review</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
+                <div><div class="toggle-label">Claim status changed</div><div class="toggle-sub">Approved, rejected, or moved to review</div></div>
+                <label class="toggle"><input type="checkbox" id="n-status" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Policy expiring soon</div>
-                  <div class="toggle-sub">30 days before a policy expires</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
+                <div><div class="toggle-label">Policy expiring soon</div><div class="toggle-sub">30 days before a policy expires</div></div>
+                <label class="toggle"><input type="checkbox" id="n-expiry" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Payment due reminder</div>
-                  <div class="toggle-sub">Remind customers of upcoming premium payments</div>
-                </div>
-                <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
+                <div><div class="toggle-label">Payment due reminder</div><div class="toggle-sub">Remind customers of upcoming premiums</div></div>
+                <label class="toggle"><input type="checkbox" id="n-payment"/><span class="slider"></span></label>
               </div>
             </div>
-
-            <div class="settings-card">
-              <div class="settings-card-title">SMS Notifications</div>
-              <div class="settings-card-desc">Send text messages for urgent alerts.</div>
-              <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Claim approved / rejected</div>
-                  <div class="toggle-sub">Instant SMS to customer on decision</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
-              </div>
-              <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Payment overdue</div>
-                  <div class="toggle-sub">Alert when a premium payment is late</div>
-                </div>
-                <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
-              </div>
-            </div>
-
             <div class="save-bar">
-              <button class="btn-primary" onclick="showToast('Notification preferences saved.')">
-                <i class="ti ti-check"></i> Save changes
-              </button>
+              <button class="btn-primary" onclick="saveNotifications()"><i class="ti ti-check"></i> Save changes</button>
             </div>
           </div>
 
-          <!-- USERS & ROLES -->
-          <div class="panel" id="panel-users">
+          <!-- COMPANY -->
+          <div class="panel" id="panel-company">
             <div class="settings-card">
-              <div class="settings-card-title">Staff Accounts</div>
-              <div class="settings-card-desc">Manage who has access to the portal and what they can do.</div>
-              <table class="dt">
-                <thead>
-                  <tr><th>Name</th><th>Email</th><th>Role</th><th>Action</th></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <div style="display:flex;align-items:center;gap:8px">
-                        <div style="width:30px;height:30px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">T</div>
-                        Teon
-                      </div>
-                    </td>
-                    <td style="color:#475569">teon@insureportal.com</td>
-                    <td><span class="role-badge role-admin">Admin</span></td>
-                    <td><button class="btn-outline btn-sm" onclick="showToast('Edit user feature coming soon.')">Edit</button></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div style="display:flex;align-items:center;gap:8px">
-                        <div style="width:30px;height:30px;border-radius:50%;background:#059669;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">CE</div>
-                        Chidi Eze
-                      </div>
-                    </td>
-                    <td style="color:#475569">c.eze@insureportal.com</td>
-                    <td><span class="role-badge role-agent">Agent</span></td>
-                    <td><button class="btn-outline btn-sm" onclick="showToast('Edit user feature coming soon.')">Edit</button></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div style="display:flex;align-items:center;gap:8px">
-                        <div style="width:30px;height:30px;border-radius:50%;background:#64748b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">NA</div>
-                        Ngozi Adeyemi
-                      </div>
-                    </td>
-                    <td style="color:#475569">n.adeyemi@insureportal.com</td>
-                    <td><span class="role-badge role-viewer">Viewer</span></td>
-                    <td><button class="btn-outline btn-sm" onclick="showToast('Edit user feature coming soon.')">Edit</button></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="margin-top:1rem">
-                <button class="btn-primary" onclick="showToast('Invite sent!')">
-                  <i class="ti ti-plus"></i> Invite user
-                </button>
+              <div class="settings-card-title">Company Details</div>
+              <div class="settings-card-desc">Appears on customer-facing documents and emails.</div>
+              <div style="margin-bottom:1rem">
+                <label class="field-label">Company name</label>
+                <input type="text" id="co-name" style="width:100%"/>
               </div>
+              <div style="margin-bottom:1rem">
+                <label class="field-label">Company email</label>
+                <input type="email" id="co-email" style="width:100%"/>
+              </div>
+              <div style="margin-bottom:1rem">
+                <label class="field-label">Address</label>
+                <textarea id="co-address" style="width:100%"></textarea>
+              </div>
+              <div class="two-col">
+                <div>
+                  <label class="field-label">Default billing cycle</label>
+                  <select id="co-billing" style="width:100%">
+                    <option>Monthly</option><option>Quarterly</option><option>Annually</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Policy types offered</label>
+                  <select id="co-types" style="width:100%">
+                    <option>Health, Auto, Life, Home</option>
+                    <option>Health only</option><option>Auto only</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="save-bar">
+              <button class="btn-outline" onclick="loadCompany()">Cancel</button>
+              <button class="btn-primary" onclick="saveCompany()"><i class="ti ti-check"></i> Save changes</button>
             </div>
           </div>
 
@@ -289,78 +189,40 @@
             <div class="settings-card">
               <div class="settings-card-title">Claims Processing Rules</div>
               <div class="settings-card-desc">Define how claims are handled automatically.</div>
-
               <div style="margin-bottom:1rem">
                 <label class="field-label">Auto-approve claims below</label>
-                <select style="width:100%">
+                <select id="cr-auto" style="width:100%">
                   <option>$500</option><option>$1,000</option><option>$2,000</option><option>Disabled</option>
                 </select>
                 <div class="field-hint">Claims under this amount are approved without manual review.</div>
               </div>
               <div style="margin-bottom:1rem">
                 <label class="field-label">Escalation threshold</label>
-                <select style="width:100%">
+                <select id="cr-escalate" style="width:100%">
                   <option>$5,000</option><option>$10,000</option><option>$20,000</option>
                 </select>
-                <div class="field-hint">Claims above this amount require manager approval.</div>
+                <div class="field-hint">Claims above this require manager approval.</div>
               </div>
               <div>
                 <label class="field-label">Processing SLA (days)</label>
-                <input type="number" value="7" style="width:120px"/>
-                <div class="field-hint">Target number of days to resolve a claim.</div>
+                <input type="number" id="cr-sla" value="7" style="width:120px"/>
+                <div class="field-hint">Target days to resolve a claim.</div>
               </div>
             </div>
             <div class="save-bar">
-              <button class="btn-outline">Cancel</button>
-              <button class="btn-primary" onclick="showToast('Claims rules saved.')">
-                <i class="ti ti-check"></i> Save changes
-              </button>
+              <button class="btn-primary" onclick="saveClaimsRules()"><i class="ti ti-check"></i> Save changes</button>
             </div>
           </div>
 
-          <!-- SECURITY -->
-          <div class="panel" id="panel-security">
+          <!-- USERS -->
+          <div class="panel" id="panel-users">
             <div class="settings-card">
-              <div class="settings-card-title">Change Password</div>
-              <div class="settings-card-desc">Update your account password.</div>
-              <div style="margin-bottom:1rem">
-                <label class="field-label">Current password</label>
-                <input type="password" value="password123" style="width:100%"/>
-              </div>
-              <div style="margin-bottom:1rem">
-                <label class="field-label">New password</label>
-                <input type="password" placeholder="Min. 8 characters" style="width:100%"/>
-              </div>
-              <div>
-                <label class="field-label">Confirm new password</label>
-                <input type="password" placeholder="Repeat new password" style="width:100%"/>
-              </div>
-            </div>
-
-            <div class="settings-card">
-              <div class="settings-card-title">Session & Access</div>
-              <div class="settings-card-desc">Control how and when users are logged out.</div>
-              <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Two-factor authentication</div>
-                  <div class="toggle-sub">Require a code when logging in</div>
-                </div>
-                <label class="toggle"><input type="checkbox"/><span class="slider"></span></label>
-              </div>
-              <div class="toggle-row">
-                <div>
-                  <div class="toggle-label">Auto logout after inactivity</div>
-                  <div class="toggle-sub">Log out after 30 minutes of no activity</div>
-                </div>
-                <label class="toggle"><input type="checkbox" checked/><span class="slider"></span></label>
-              </div>
-            </div>
-
-            <div class="save-bar">
-              <button class="btn-danger"><i class="ti ti-trash"></i> Delete account</button>
-              <button class="btn-primary" onclick="showToast('Security settings saved.')">
-                <i class="ti ti-check"></i> Save changes
-              </button>
+              <div class="settings-card-title">Registered Users</div>
+              <div class="settings-card-desc">Everyone who has created an account on this portal.</div>
+              <table class="dt">
+                <thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
+                <tbody id="users-body"></tbody>
+              </table>
             </div>
           </div>
 
@@ -371,13 +233,14 @@
 </div>
 
 <!-- Toast -->
-<div class="toast" id="toast">
-  <i class="ti ti-circle-check" style="color:#10b981;font-size:16px"></i>
-  <span id="toast-msg"></span>
-</div>
+<div class="toast" id="toast"><i class="ti ti-circle-check" style="color:#10b981;font-size:16px"></i><span id="toast-msg"></span></div>
 
 <script src="data.js"></script>
 <script>
+  requireLogin();
+  injectUser();
+
+  // ===== PANEL SWITCH =====
   function showPanel(name, el) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.settings-nav-item').forEach(n => n.classList.remove('active'));
@@ -385,12 +248,179 @@
     el.classList.add('active');
   }
 
+  // ===== TOAST =====
   function showToast(msg) {
-    const toast = document.getElementById('toast');
+    const t = document.getElementById('toast');
     document.getElementById('toast-msg').textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
   }
+
+  // ===== PROFILE =====
+  function loadProfile() {
+    const user = getUser();
+    if (!user) return;
+    const parts = user.name.split(' ');
+    document.getElementById('p-firstname').value = parts[0] || '';
+    document.getElementById('p-lastname').value  = parts.slice(1).join(' ') || '';
+    document.getElementById('p-email').value     = user.email || '';
+    document.getElementById('p-phone').value     = user.phone || '';
+  }
+
+  function saveProfile() {
+    const first = document.getElementById('p-firstname').value.trim();
+    const last  = document.getElementById('p-lastname').value.trim();
+    const phone = document.getElementById('p-phone').value.trim();
+    if (!first) { showToast('First name is required.'); return; }
+
+    const fullName = (first + ' ' + last).trim();
+    const initials = (first[0] + (last[0] || '')).toUpperCase();
+
+    // Update current session user
+    const user = getUser();
+    user.name     = fullName;
+    user.initials = initials;
+    user.phone    = phone;
+    localStorage.setItem('ip_user', JSON.stringify(user));
+
+    // Update in users array
+    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
+    const idx   = users.findIndex(u => u.email === user.email);
+    if (idx > -1) {
+      users[idx].name     = fullName;
+      users[idx].initials = initials;
+      users[idx].phone    = phone;
+      localStorage.setItem('ip_users', JSON.stringify(users));
+    }
+
+    // Update in customers array too
+    const customers = getCustomers();
+    const cidx = customers.findIndex(c => c.email === user.email);
+    if (cidx > -1) {
+      customers[cidx].name     = fullName;
+      customers[cidx].initials = initials;
+      customers[cidx].phone    = phone;
+      saveCustomers(customers);
+    }
+
+    // Refresh displayed name on page
+    injectUser();
+    showToast('Profile saved! Name updated across the portal.');
+  }
+
+  // ===== PASSWORD =====
+  function savePassword() {
+    const current  = document.getElementById('pw-current').value;
+    const newPw    = document.getElementById('pw-new').value;
+    const confirm  = document.getElementById('pw-confirm').value;
+    const errEl    = document.getElementById('pw-error');
+
+    errEl.style.display = 'none';
+
+    const user  = getUser();
+    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
+    const u     = users.find(x => x.email === user.email);
+
+    if (!u || u.password !== current) { errEl.textContent = 'Current password is incorrect.'; errEl.style.display = 'block'; return; }
+    if (newPw.length < 6)             { errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+    if (newPw !== confirm)            { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+
+    u.password = newPw;
+    localStorage.setItem('ip_users', JSON.stringify(users));
+    // Update session
+    user.password = newPw;
+    localStorage.setItem('ip_user', JSON.stringify(user));
+
+    document.getElementById('pw-current').value = '';
+    document.getElementById('pw-new').value     = '';
+    document.getElementById('pw-confirm').value = '';
+    showToast('Password updated successfully!');
+  }
+
+  // ===== NOTIFICATIONS =====
+  function loadNotifications() {
+    const saved = JSON.parse(localStorage.getItem('ip_notifications') || '{}');
+    document.getElementById('n-claim').checked   = saved.claim   !== false;
+    document.getElementById('n-status').checked  = saved.status  !== false;
+    document.getElementById('n-expiry').checked  = saved.expiry  !== false;
+    document.getElementById('n-payment').checked = saved.payment === true;
+  }
+
+  function saveNotifications() {
+    localStorage.setItem('ip_notifications', JSON.stringify({
+      claim:   document.getElementById('n-claim').checked,
+      status:  document.getElementById('n-status').checked,
+      expiry:  document.getElementById('n-expiry').checked,
+      payment: document.getElementById('n-payment').checked,
+    }));
+    showToast('Notification preferences saved!');
+  }
+
+  // ===== COMPANY =====
+  function loadCompany() {
+    const saved = JSON.parse(localStorage.getItem('ip_company') || '{}');
+    document.getElementById('co-name').value    = saved.name    || 'InsurePortal Ltd';
+    document.getElementById('co-email').value   = saved.email   || 'support@insureportal.com';
+    document.getElementById('co-address').value = saved.address || '12 Marina Street, Lagos Island, Lagos, Nigeria';
+    document.getElementById('co-billing').value = saved.billing || 'Monthly';
+    document.getElementById('co-types').value   = saved.types   || 'Health, Auto, Life, Home';
+  }
+
+  function saveCompany() {
+    localStorage.setItem('ip_company', JSON.stringify({
+      name:    document.getElementById('co-name').value,
+      email:   document.getElementById('co-email').value,
+      address: document.getElementById('co-address').value,
+      billing: document.getElementById('co-billing').value,
+      types:   document.getElementById('co-types').value,
+    }));
+    showToast('Company details saved!');
+  }
+
+  // ===== CLAIMS RULES =====
+  function loadClaimsRules() {
+    const saved = JSON.parse(localStorage.getItem('ip_claims_rules') || '{}');
+    document.getElementById('cr-auto').value     = saved.auto     || '$500';
+    document.getElementById('cr-escalate').value = saved.escalate || '$5,000';
+    document.getElementById('cr-sla').value      = saved.sla      || 7;
+  }
+
+  function saveClaimsRules() {
+    localStorage.setItem('ip_claims_rules', JSON.stringify({
+      auto:     document.getElementById('cr-auto').value,
+      escalate: document.getElementById('cr-escalate').value,
+      sla:      document.getElementById('cr-sla').value,
+    }));
+    showToast('Claims rules saved!');
+  }
+
+  // ===== USERS LIST =====
+  function loadUsers() {
+    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
+    const body  = document.getElementById('users-body');
+    if (!users.length) {
+      body.innerHTML = '<tr><td colspan="3" style="color:#94a3b8;padding:1rem">No registered users yet.</td></tr>';
+      return;
+    }
+    body.innerHTML = users.map(u => `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:30px;height:30px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">${u.initials}</div>
+            ${u.name}
+          </div>
+        </td>
+        <td style="color:#475569">${u.email}</td>
+        <td style="color:#94a3b8">${u.since || 'N/A'}</td>
+      </tr>`).join('');
+  }
+
+  // ===== INIT — load all saved values =====
+  loadProfile();
+  loadNotifications();
+  loadCompany();
+  loadClaimsRules();
+  loadUsers();
 </script>
 </body>
 </html>
