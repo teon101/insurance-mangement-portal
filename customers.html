@@ -38,6 +38,17 @@
   </aside>
 
   <div class="main">
+
+    <div class="mobile-topbar">
+      <div class="mobile-brand">
+        <div class="mobile-brand-icon"><i class="ti ti-shield-check"></i></div>
+        <div class="mobile-brand-name">Customers</div>
+      </div>
+      <div class="mobile-user">
+        <div class="mobile-avatar user-initials">T</div>
+      </div>
+    </div>
+
     <header class="topbar">
       <div>
         <div class="page-title">Customers</div>
@@ -53,7 +64,7 @@
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-icon navy"><i class="ti ti-users"></i></div>
-          <div class="stat-body"><div class="stat-label">Total Customers</div><div class="stat-val" id="s-total">0</div></div>
+          <div class="stat-body"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon green"><i class="ti ti-file-text"></i></div>
@@ -65,20 +76,26 @@
         </div>
         <div class="stat-card">
           <div class="stat-icon teal"><i class="ti ti-user-plus"></i></div>
-          <div class="stat-body"><div class="stat-label">Registered Users</div><div class="stat-val" id="s-users">0</div></div>
+          <div class="stat-body"><div class="stat-label">Registered</div><div class="stat-val" id="s-users">0</div></div>
         </div>
       </div>
 
       <div class="section-card">
         <div class="section-header">
-          <div class="search-wrap">
+          <div class="search-wrap" style="flex:1">
             <i class="ti ti-search"></i>
-            <input class="search-input" type="text" id="search" placeholder="Search by name or email..." oninput="render()"/>
+            <input class="search-input" type="text" id="search" placeholder="Search customers..." oninput="render()"/>
           </div>
         </div>
         <table class="dt">
           <thead>
-            <tr><th>Customer</th><th>Email</th><th>Phone</th><th>Policies</th><th>Claims</th><th>Since</th><th>Action</th></tr>
+            <tr>
+              <th>Customer</th>
+              <th class="hide-mobile">Email</th>
+              <th>Policies</th>
+              <th>Claims</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -88,19 +105,28 @@
   </div>
 </div>
 
-<!-- VIEW CUSTOMER MODAL -->
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html"     class="bn-item"><i class="ti ti-layout-dashboard"></i>Home</a>
+  <a href="policies.html"  class="bn-item"><i class="ti ti-file-text"></i>Policies</a>
+  <a href="claims.html"    class="bn-item"><i class="ti ti-clipboard-list"></i>Claims</a>
+  <a href="customers.html" class="bn-item active"><i class="ti ti-users"></i>Customers</a>
+  <a href="settings.html"  class="bn-item"><i class="ti ti-settings"></i>Settings</a>
+</nav>
+
+<!-- VIEW MODAL -->
 <div class="modal-overlay" id="view-modal">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title">Customer Details</div>
       <button class="modal-close" onclick="closeView()">&times;</button>
     </div>
-    <div id="view-info" style="margin-bottom:1.25rem"></div>
-    <div style="margin-bottom:1rem">
+    <div id="view-info" style="margin-bottom:1rem"></div>
+    <div style="margin-bottom:0.875rem">
       <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#0f2044">Policies</div>
       <div id="view-policies"></div>
     </div>
-    <div style="margin-bottom:1.25rem">
+    <div style="margin-bottom:1rem">
       <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:#0f2044">Claims</div>
       <div id="view-claims"></div>
     </div>
@@ -112,85 +138,66 @@
 
 <script src="data.js"></script>
 <script>
-  requireLogin();
-  injectUser();
+  requireLogin(); injectUser();
 
-  function updateStats() {
-    const customers = getCustomers();
-    const users     = JSON.parse(localStorage.getItem('ip_users') || '[]');
-    document.getElementById('s-total').textContent  = customers.length;
-    document.getElementById('s-policy').textContent = customers.filter(c => c.policies > 0).length;
-    document.getElementById('s-claims').textContent = customers.filter(c => c.claims > 0).length;
-    document.getElementById('s-users').textContent  = users.length;
+  function updateStats(){
+    const c=getCustomers();
+    const u=JSON.parse(localStorage.getItem('ip_users')||'[]');
+    document.getElementById('s-total').textContent  = c.length;
+    document.getElementById('s-policy').textContent = c.filter(x=>x.policies>0).length;
+    document.getElementById('s-claims').textContent = c.filter(x=>x.claims>0).length;
+    document.getElementById('s-users').textContent  = u.length;
   }
 
-  function render() {
-    const customers = getCustomers();
-    const q = document.getElementById('search').value.toLowerCase();
-    const filtered = customers.filter(c =>
-      c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)
-    );
-    const body  = document.getElementById('tbody');
-    const empty = document.getElementById('empty');
-    if (!filtered.length) { body.innerHTML = ''; empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-    body.innerHTML = filtered.map(c => `
+  function render(){
+    const customers=getCustomers();
+    const q=document.getElementById('search').value.toLowerCase();
+    const filtered=customers.filter(c=>c.name.toLowerCase().includes(q)||c.email.toLowerCase().includes(q));
+    const body=document.getElementById('tbody');
+    const empty=document.getElementById('empty');
+    if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    body.innerHTML=filtered.map(c=>`
       <tr>
         <td>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:34px;height:34px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">${c.initials}</div>
-            <span style="font-weight:600">${c.name}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:32px;height:32px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${c.initials}</div>
+            <span style="font-weight:600;font-size:13px">${c.name}</span>
           </div>
         </td>
-        <td style="color:#475569">${c.email}</td>
-        <td style="color:#475569">${c.phone}</td>
-        <td><span style="background:#e0e9ff;color:#0f2044;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${c.policies}</span></td>
-        <td><span style="background:#d1fae5;color:#065f46;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${c.claims}</span></td>
-        <td style="color:#94a3b8;font-size:12.5px">${c.since}</td>
-        <td><button class="btn-outline btn-sm" onclick="openView('${c.email}')"><i class="ti ti-eye"></i> View</button></td>
+        <td class="hide-mobile" style="color:#475569;font-size:12px">${c.email}</td>
+        <td><span style="background:#e0e9ff;color:#0f2044;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">${c.policies}</span></td>
+        <td><span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">${c.claims}</span></td>
+        <td><button class="btn-outline btn-sm" onclick="openView('${c.email}')"><i class="ti ti-eye"></i></button></td>
       </tr>`).join('');
   }
 
-  function openView(email) {
-    const c         = getCustomers().find(x => x.email === email);
-    const policies  = getPolicies().filter(p => p.customer === c.name);
-    const claims    = getClaims().filter(cl => cl.customer === c.name);
-
-    document.getElementById('view-info').innerHTML = `
-      <div style="display:flex;align-items:center;gap:14px;padding:1rem;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:1rem">
-        <div style="width:48px;height:48px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;flex-shrink:0">${c.initials}</div>
+  function openView(email){
+    const c=getCustomers().find(x=>x.email===email);
+    const custPolicies=getPolicies().filter(p=>p.customer===c.name);
+    const custClaims=getClaims().filter(cl=>cl.customer===c.name);
+    document.getElementById('view-info').innerHTML=`
+      <div style="display:flex;align-items:center;gap:12px;padding:0.875rem;background:#f8fafc;border-radius:12px;border:1px solid #e2e8f0;margin-bottom:0.875rem">
+        <div style="width:44px;height:44px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0">${c.initials}</div>
         <div>
           <div style="font-size:15px;font-weight:700;color:#0f2044">${c.name}</div>
           <div style="font-size:12px;color:#94a3b8;margin-top:2px">Member since ${c.since}</div>
         </div>
       </div>
       <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <tr><td style="padding:8px 0;color:#94a3b8;width:40%">Email</td><td style="font-weight:500">${c.email}</td></tr>
-        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Phone</td><td style="font-weight:500">${c.phone}</td></tr>
+        <tr><td style="padding:7px 0;color:#94a3b8;width:40%">Email</td><td>${c.email}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:7px 0;color:#94a3b8">Phone</td><td>${c.phone}</td></tr>
       </table>`;
-
-    document.getElementById('view-policies').innerHTML = policies.length
-      ? policies.map(p => `
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px">
-            <span style="font-weight:700;color:#0f2044">${p.id}</span>
-            <span style="color:#475569">${p.type}</span>
-            <span class="badge ${getBadgeClass(p.status)}">${p.status}</span>
-          </div>`).join('')
-      : '<div style="color:#94a3b8;font-size:13px;padding:8px 0">No policies found.</div>';
-
-    document.getElementById('view-claims').innerHTML = claims.length
-      ? claims.map(cl => `
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px">
-            <span style="font-weight:700;color:#0f2044">${cl.id}</span>
-            <span style="color:#475569">${cl.type}</span>
-            <span class="badge ${getBadgeClass(cl.status)}">${cl.status}</span>
-          </div>`).join('')
-      : '<div style="color:#94a3b8;font-size:13px;padding:8px 0">No claims found.</div>';
-
+    document.getElementById('view-policies').innerHTML=custPolicies.length
+      ?custPolicies.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:13px"><span style="font-weight:700;color:#0f2044">${p.id}</span><span style="color:#475569">${p.type}</span><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></div>`).join('')
+      :'<div style="color:#94a3b8;font-size:13px;padding:7px 0">No policies found.</div>';
+    document.getElementById('view-claims').innerHTML=custClaims.length
+      ?custClaims.map(cl=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:13px"><span style="font-weight:700;color:#0f2044">${cl.id}</span><span style="color:#475569">${cl.type}</span><span class="badge ${getBadgeClass(cl.status)}">${cl.status}</span></div>`).join('')
+      :'<div style="color:#94a3b8;font-size:13px;padding:7px 0">No claims found.</div>';
     document.getElementById('view-modal').classList.add('open');
   }
 
-  function closeView() { document.getElementById('view-modal').classList.remove('open'); }
+  function closeView(){document.getElementById('view-modal').classList.remove('open');}
 
   updateStats(); render();
 </script>

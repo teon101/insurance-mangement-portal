@@ -38,6 +38,17 @@
   </aside>
 
   <div class="main">
+
+    <div class="mobile-topbar">
+      <div class="mobile-brand">
+        <div class="mobile-brand-icon"><i class="ti ti-shield-check"></i></div>
+        <div class="mobile-brand-name">Settings</div>
+      </div>
+      <div class="mobile-user">
+        <button onclick="logout()" style="background:none;border:none;color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+
     <header class="topbar">
       <div>
         <div class="page-title">Settings</div>
@@ -51,24 +62,23 @@
     <div class="content">
       <div class="settings-layout">
 
-        <!-- Left nav -->
+        <!-- Settings nav -->
         <div class="settings-nav">
-          <div class="settings-nav-item active" onclick="showPanel('profile', this)"><i class="ti ti-user"></i> Profile</div>
-          <div class="settings-nav-item" onclick="showPanel('password', this)"><i class="ti ti-lock"></i> Password</div>
-          <div class="settings-nav-item" onclick="showPanel('notifications', this)"><i class="ti ti-bell"></i> Notifications</div>
-          <div class="settings-nav-item" onclick="showPanel('company', this)"><i class="ti ti-building"></i> Company</div>
-          <div class="settings-nav-item" onclick="showPanel('claims-rules', this)"><i class="ti ti-clipboard-list"></i> Claims Rules</div>
-          <div class="settings-nav-item" onclick="showPanel('users', this)"><i class="ti ti-users"></i> Users</div>
+          <div class="settings-nav-item active" onclick="showPanel('profile',this)"><i class="ti ti-user"></i> Profile</div>
+          <div class="settings-nav-item" onclick="showPanel('password',this)"><i class="ti ti-lock"></i> Password</div>
+          <div class="settings-nav-item" onclick="showPanel('notifications',this)"><i class="ti ti-bell"></i> Alerts</div>
+          <div class="settings-nav-item" onclick="showPanel('company',this)"><i class="ti ti-building"></i> Company</div>
+          <div class="settings-nav-item" onclick="showPanel('claims-rules',this)"><i class="ti ti-clipboard-list"></i> Rules</div>
+          <div class="settings-nav-item" onclick="showPanel('users',this)"><i class="ti ti-users"></i> Users</div>
         </div>
 
-        <!-- Right panels -->
         <div>
 
-          <!-- PROFILE — reads from logged in user, saves back -->
+          <!-- PROFILE -->
           <div class="panel active" id="panel-profile">
             <div class="settings-card">
               <div class="settings-card-title">Personal Information</div>
-              <div class="settings-card-desc">Changes here update your name across the entire portal.</div>
+              <div class="settings-card-desc">Changes here update your name across the portal.</div>
               <div class="two-col">
                 <div>
                   <label class="field-label">First name</label>
@@ -79,18 +89,18 @@
                   <input type="text" id="p-lastname" style="width:100%"/>
                 </div>
               </div>
-              <div style="margin-top:1rem">
-                <label class="field-label">Email address</label>
-                <input type="email" id="p-email" style="width:100%" readonly style="background:#f8fafc"/>
+              <div style="margin-top:0.875rem">
+                <label class="field-label">Email</label>
+                <input type="email" id="p-email" style="width:100%;background:#f8fafc;color:#94a3b8" readonly/>
               </div>
-              <div style="margin-top:1rem">
-                <label class="field-label">Phone number</label>
+              <div style="margin-top:0.875rem">
+                <label class="field-label">Phone</label>
                 <input type="tel" id="p-phone" style="width:100%"/>
               </div>
             </div>
             <div class="save-bar">
               <button class="btn-outline" onclick="loadProfile()">Cancel</button>
-              <button class="btn-primary" onclick="saveProfile()"><i class="ti ti-check"></i> Save changes</button>
+              <button class="btn-primary" onclick="saveProfile()"><i class="ti ti-check"></i> Save</button>
             </div>
           </div>
 
@@ -99,11 +109,11 @@
             <div class="settings-card">
               <div class="settings-card-title">Change Password</div>
               <div class="settings-card-desc">Update your account password.</div>
-              <div style="margin-bottom:1rem">
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">Current password</label>
-                <input type="password" id="pw-current" placeholder="Enter current password" style="width:100%"/>
+                <input type="password" id="pw-current" placeholder="Current password" style="width:100%"/>
               </div>
-              <div style="margin-bottom:1rem">
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">New password</label>
                 <input type="password" id="pw-new" placeholder="Min. 6 characters" style="width:100%"/>
               </div>
@@ -114,7 +124,7 @@
               <div class="error-msg" id="pw-error"></div>
             </div>
             <div class="save-bar">
-              <button class="btn-primary" onclick="savePassword()"><i class="ti ti-check"></i> Update password</button>
+              <button class="btn-primary" onclick="savePassword()"><i class="ti ti-check"></i> Update Password</button>
             </div>
           </div>
 
@@ -122,26 +132,26 @@
           <div class="panel" id="panel-notifications">
             <div class="settings-card">
               <div class="settings-card-title">Email Notifications</div>
-              <div class="settings-card-desc">Choose which events trigger an email alert.</div>
+              <div class="settings-card-desc">Choose which events trigger alerts.</div>
               <div class="toggle-row">
-                <div><div class="toggle-label">New claim submitted</div><div class="toggle-sub">Get notified when a claim is filed</div></div>
+                <div><div class="toggle-label">New claim submitted</div><div class="toggle-sub">Notify when a claim is filed</div></div>
                 <label class="toggle"><input type="checkbox" id="n-claim" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div><div class="toggle-label">Claim status changed</div><div class="toggle-sub">Approved, rejected, or moved to review</div></div>
+                <div><div class="toggle-label">Claim status changed</div><div class="toggle-sub">Approved, rejected or in review</div></div>
                 <label class="toggle"><input type="checkbox" id="n-status" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div><div class="toggle-label">Policy expiring soon</div><div class="toggle-sub">30 days before a policy expires</div></div>
+                <div><div class="toggle-label">Policy expiring soon</div><div class="toggle-sub">30 days before expiry</div></div>
                 <label class="toggle"><input type="checkbox" id="n-expiry" checked/><span class="slider"></span></label>
               </div>
               <div class="toggle-row">
-                <div><div class="toggle-label">Payment due reminder</div><div class="toggle-sub">Remind customers of upcoming premiums</div></div>
+                <div><div class="toggle-label">Payment due reminder</div><div class="toggle-sub">Upcoming premium payments</div></div>
                 <label class="toggle"><input type="checkbox" id="n-payment"/><span class="slider"></span></label>
               </div>
             </div>
             <div class="save-bar">
-              <button class="btn-primary" onclick="saveNotifications()"><i class="ti ti-check"></i> Save changes</button>
+              <button class="btn-primary" onclick="saveNotifications()"><i class="ti ti-check"></i> Save</button>
             </div>
           </div>
 
@@ -149,28 +159,28 @@
           <div class="panel" id="panel-company">
             <div class="settings-card">
               <div class="settings-card-title">Company Details</div>
-              <div class="settings-card-desc">Appears on customer-facing documents and emails.</div>
-              <div style="margin-bottom:1rem">
+              <div class="settings-card-desc">Appears on customer-facing documents.</div>
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">Company name</label>
                 <input type="text" id="co-name" style="width:100%"/>
               </div>
-              <div style="margin-bottom:1rem">
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">Company email</label>
                 <input type="email" id="co-email" style="width:100%"/>
               </div>
-              <div style="margin-bottom:1rem">
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">Address</label>
                 <textarea id="co-address" style="width:100%"></textarea>
               </div>
               <div class="two-col">
                 <div>
-                  <label class="field-label">Default billing cycle</label>
+                  <label class="field-label">Billing cycle</label>
                   <select id="co-billing" style="width:100%">
                     <option>Monthly</option><option>Quarterly</option><option>Annually</option>
                   </select>
                 </div>
                 <div>
-                  <label class="field-label">Policy types offered</label>
+                  <label class="field-label">Policy types</label>
                   <select id="co-types" style="width:100%">
                     <option>Health, Auto, Life, Home</option>
                     <option>Health only</option><option>Auto only</option>
@@ -180,7 +190,7 @@
             </div>
             <div class="save-bar">
               <button class="btn-outline" onclick="loadCompany()">Cancel</button>
-              <button class="btn-primary" onclick="saveCompany()"><i class="ti ti-check"></i> Save changes</button>
+              <button class="btn-primary" onclick="saveCompany()"><i class="ti ti-check"></i> Save</button>
             </div>
           </div>
 
@@ -188,29 +198,29 @@
           <div class="panel" id="panel-claims-rules">
             <div class="settings-card">
               <div class="settings-card-title">Claims Processing Rules</div>
-              <div class="settings-card-desc">Define how claims are handled automatically.</div>
-              <div style="margin-bottom:1rem">
-                <label class="field-label">Auto-approve claims below</label>
+              <div class="settings-card-desc">Define how claims are handled.</div>
+              <div style="margin-bottom:0.875rem">
+                <label class="field-label">Auto-approve below</label>
                 <select id="cr-auto" style="width:100%">
                   <option>$500</option><option>$1,000</option><option>$2,000</option><option>Disabled</option>
                 </select>
-                <div class="field-hint">Claims under this amount are approved without manual review.</div>
+                <div class="field-hint">Claims under this are auto-approved.</div>
               </div>
-              <div style="margin-bottom:1rem">
+              <div style="margin-bottom:0.875rem">
                 <label class="field-label">Escalation threshold</label>
                 <select id="cr-escalate" style="width:100%">
                   <option>$5,000</option><option>$10,000</option><option>$20,000</option>
                 </select>
-                <div class="field-hint">Claims above this require manager approval.</div>
+                <div class="field-hint">Claims above this need manager approval.</div>
               </div>
               <div>
                 <label class="field-label">Processing SLA (days)</label>
-                <input type="number" id="cr-sla" value="7" style="width:120px"/>
+                <input type="number" id="cr-sla" value="7" style="width:100px"/>
                 <div class="field-hint">Target days to resolve a claim.</div>
               </div>
             </div>
             <div class="save-bar">
-              <button class="btn-primary" onclick="saveClaimsRules()"><i class="ti ti-check"></i> Save changes</button>
+              <button class="btn-primary" onclick="saveClaimsRules()"><i class="ti ti-check"></i> Save</button>
             </div>
           </div>
 
@@ -218,9 +228,9 @@
           <div class="panel" id="panel-users">
             <div class="settings-card">
               <div class="settings-card-title">Registered Users</div>
-              <div class="settings-card-desc">Everyone who has created an account on this portal.</div>
+              <div class="settings-card-desc">Everyone who created an account.</div>
               <table class="dt">
-                <thead><tr><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
+                <thead><tr><th>Name</th><th>Email</th><th class="hide-mobile">Joined</th></tr></thead>
                 <tbody id="users-body"></tbody>
               </table>
             </div>
@@ -232,195 +242,156 @@
   </div>
 </div>
 
-<!-- Toast -->
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html"     class="bn-item"><i class="ti ti-layout-dashboard"></i>Home</a>
+  <a href="policies.html"  class="bn-item"><i class="ti ti-file-text"></i>Policies</a>
+  <a href="claims.html"    class="bn-item"><i class="ti ti-clipboard-list"></i>Claims</a>
+  <a href="customers.html" class="bn-item"><i class="ti ti-users"></i>Customers</a>
+  <a href="settings.html"  class="bn-item active"><i class="ti ti-settings"></i>Settings</a>
+</nav>
+
 <div class="toast" id="toast"><i class="ti ti-circle-check" style="color:#10b981;font-size:16px"></i><span id="toast-msg"></span></div>
 
 <script src="data.js"></script>
 <script>
-  requireLogin();
-  injectUser();
+  requireLogin(); injectUser();
 
-  // ===== PANEL SWITCH =====
-  function showPanel(name, el) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.settings-nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('panel-' + name).classList.add('active');
+  function showPanel(name,el){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.settings-nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
     el.classList.add('active');
   }
 
-  // ===== TOAST =====
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    document.getElementById('toast-msg').textContent = msg;
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    document.getElementById('toast-msg').textContent=msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    setTimeout(()=>t.classList.remove('show'),2500);
   }
 
-  // ===== PROFILE =====
-  function loadProfile() {
-    const user = getUser();
-    if (!user) return;
-    const parts = user.name.split(' ');
-    document.getElementById('p-firstname').value = parts[0] || '';
-    document.getElementById('p-lastname').value  = parts.slice(1).join(' ') || '';
-    document.getElementById('p-email').value     = user.email || '';
-    document.getElementById('p-phone').value     = user.phone || '';
+  function loadProfile(){
+    const user=getUser(); if(!user)return;
+    const parts=user.name.split(' ');
+    document.getElementById('p-firstname').value=parts[0]||'';
+    document.getElementById('p-lastname').value=parts.slice(1).join(' ')||'';
+    document.getElementById('p-email').value=user.email||'';
+    document.getElementById('p-phone').value=user.phone||'';
   }
 
-  function saveProfile() {
-    const first = document.getElementById('p-firstname').value.trim();
-    const last  = document.getElementById('p-lastname').value.trim();
-    const phone = document.getElementById('p-phone').value.trim();
-    if (!first) { showToast('First name is required.'); return; }
-
-    const fullName = (first + ' ' + last).trim();
-    const initials = (first[0] + (last[0] || '')).toUpperCase();
-
-    // Update current session user
-    const user = getUser();
-    user.name     = fullName;
-    user.initials = initials;
-    user.phone    = phone;
-    localStorage.setItem('ip_user', JSON.stringify(user));
-
-    // Update in users array
-    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
-    const idx   = users.findIndex(u => u.email === user.email);
-    if (idx > -1) {
-      users[idx].name     = fullName;
-      users[idx].initials = initials;
-      users[idx].phone    = phone;
-      localStorage.setItem('ip_users', JSON.stringify(users));
-    }
-
-    // Update in customers array too
-    const customers = getCustomers();
-    const cidx = customers.findIndex(c => c.email === user.email);
-    if (cidx > -1) {
-      customers[cidx].name     = fullName;
-      customers[cidx].initials = initials;
-      customers[cidx].phone    = phone;
-      saveCustomers(customers);
-    }
-
-    // Refresh displayed name on page
+  function saveProfile(){
+    const first=document.getElementById('p-firstname').value.trim();
+    const last=document.getElementById('p-lastname').value.trim();
+    const phone=document.getElementById('p-phone').value.trim();
+    if(!first){showToast('First name is required.');return;}
+    const fullName=(first+' '+last).trim();
+    const initials=(first[0]+(last[0]||'')).toUpperCase();
+    const user=getUser();
+    user.name=fullName; user.initials=initials; user.phone=phone;
+    localStorage.setItem('ip_user',JSON.stringify(user));
+    const users=JSON.parse(localStorage.getItem('ip_users')||'[]');
+    const idx=users.findIndex(u=>u.email===user.email);
+    if(idx>-1){users[idx].name=fullName;users[idx].initials=initials;users[idx].phone=phone;localStorage.setItem('ip_users',JSON.stringify(users));}
+    const customers=getCustomers();
+    const cidx=customers.findIndex(c=>c.email===user.email);
+    if(cidx>-1){customers[cidx].name=fullName;customers[cidx].initials=initials;customers[cidx].phone=phone;saveCustomers(customers);}
     injectUser();
-    showToast('Profile saved! Name updated across the portal.');
+    showToast('Profile saved! Name updated everywhere.');
   }
 
-  // ===== PASSWORD =====
-  function savePassword() {
-    const current  = document.getElementById('pw-current').value;
-    const newPw    = document.getElementById('pw-new').value;
-    const confirm  = document.getElementById('pw-confirm').value;
-    const errEl    = document.getElementById('pw-error');
-
-    errEl.style.display = 'none';
-
-    const user  = getUser();
-    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
-    const u     = users.find(x => x.email === user.email);
-
-    if (!u || u.password !== current) { errEl.textContent = 'Current password is incorrect.'; errEl.style.display = 'block'; return; }
-    if (newPw.length < 6)             { errEl.textContent = 'New password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-    if (newPw !== confirm)            { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
-
-    u.password = newPw;
-    localStorage.setItem('ip_users', JSON.stringify(users));
-    // Update session
-    user.password = newPw;
-    localStorage.setItem('ip_user', JSON.stringify(user));
-
-    document.getElementById('pw-current').value = '';
-    document.getElementById('pw-new').value     = '';
-    document.getElementById('pw-confirm').value = '';
-    showToast('Password updated successfully!');
+  function savePassword(){
+    const current=document.getElementById('pw-current').value;
+    const newPw=document.getElementById('pw-new').value;
+    const confirm=document.getElementById('pw-confirm').value;
+    const errEl=document.getElementById('pw-error');
+    errEl.style.display='none';
+    const user=getUser();
+    const users=JSON.parse(localStorage.getItem('ip_users')||'[]');
+    const u=users.find(x=>x.email===user.email);
+    if(!u||u.password!==current){errEl.textContent='Current password is incorrect.';errEl.style.display='block';return;}
+    if(newPw.length<6){errEl.textContent='Min. 6 characters.';errEl.style.display='block';return;}
+    if(newPw!==confirm){errEl.textContent='Passwords do not match.';errEl.style.display='block';return;}
+    u.password=newPw;
+    localStorage.setItem('ip_users',JSON.stringify(users));
+    user.password=newPw;
+    localStorage.setItem('ip_user',JSON.stringify(user));
+    ['pw-current','pw-new','pw-confirm'].forEach(id=>document.getElementById(id).value='');
+    showToast('Password updated!');
   }
 
-  // ===== NOTIFICATIONS =====
-  function loadNotifications() {
-    const saved = JSON.parse(localStorage.getItem('ip_notifications') || '{}');
-    document.getElementById('n-claim').checked   = saved.claim   !== false;
-    document.getElementById('n-status').checked  = saved.status  !== false;
-    document.getElementById('n-expiry').checked  = saved.expiry  !== false;
-    document.getElementById('n-payment').checked = saved.payment === true;
+  function loadNotifications(){
+    const s=JSON.parse(localStorage.getItem('ip_notifications')||'{}');
+    document.getElementById('n-claim').checked  = s.claim!==false;
+    document.getElementById('n-status').checked = s.status!==false;
+    document.getElementById('n-expiry').checked = s.expiry!==false;
+    document.getElementById('n-payment').checked= s.payment===true;
   }
 
-  function saveNotifications() {
-    localStorage.setItem('ip_notifications', JSON.stringify({
-      claim:   document.getElementById('n-claim').checked,
-      status:  document.getElementById('n-status').checked,
-      expiry:  document.getElementById('n-expiry').checked,
-      payment: document.getElementById('n-payment').checked,
+  function saveNotifications(){
+    localStorage.setItem('ip_notifications',JSON.stringify({
+      claim:document.getElementById('n-claim').checked,
+      status:document.getElementById('n-status').checked,
+      expiry:document.getElementById('n-expiry').checked,
+      payment:document.getElementById('n-payment').checked,
     }));
-    showToast('Notification preferences saved!');
+    showToast('Notifications saved!');
   }
 
-  // ===== COMPANY =====
-  function loadCompany() {
-    const saved = JSON.parse(localStorage.getItem('ip_company') || '{}');
-    document.getElementById('co-name').value    = saved.name    || 'InsurePortal Ltd';
-    document.getElementById('co-email').value   = saved.email   || 'support@insureportal.com';
-    document.getElementById('co-address').value = saved.address || '12 Marina Street, Lagos Island, Lagos, Nigeria';
-    document.getElementById('co-billing').value = saved.billing || 'Monthly';
-    document.getElementById('co-types').value   = saved.types   || 'Health, Auto, Life, Home';
+  function loadCompany(){
+    const s=JSON.parse(localStorage.getItem('ip_company')||'{}');
+    document.getElementById('co-name').value   = s.name    ||'InsurePortal Ltd';
+    document.getElementById('co-email').value  = s.email   ||'support@insureportal.com';
+    document.getElementById('co-address').value= s.address ||'12 Marina Street, Lagos Island, Lagos, Nigeria';
+    document.getElementById('co-billing').value= s.billing ||'Monthly';
+    document.getElementById('co-types').value  = s.types   ||'Health, Auto, Life, Home';
   }
 
-  function saveCompany() {
-    localStorage.setItem('ip_company', JSON.stringify({
-      name:    document.getElementById('co-name').value,
-      email:   document.getElementById('co-email').value,
-      address: document.getElementById('co-address').value,
-      billing: document.getElementById('co-billing').value,
-      types:   document.getElementById('co-types').value,
+  function saveCompany(){
+    localStorage.setItem('ip_company',JSON.stringify({
+      name:document.getElementById('co-name').value,
+      email:document.getElementById('co-email').value,
+      address:document.getElementById('co-address').value,
+      billing:document.getElementById('co-billing').value,
+      types:document.getElementById('co-types').value,
     }));
     showToast('Company details saved!');
   }
 
-  // ===== CLAIMS RULES =====
-  function loadClaimsRules() {
-    const saved = JSON.parse(localStorage.getItem('ip_claims_rules') || '{}');
-    document.getElementById('cr-auto').value     = saved.auto     || '$500';
-    document.getElementById('cr-escalate').value = saved.escalate || '$5,000';
-    document.getElementById('cr-sla').value      = saved.sla      || 7;
+  function loadClaimsRules(){
+    const s=JSON.parse(localStorage.getItem('ip_claims_rules')||'{}');
+    document.getElementById('cr-auto').value    = s.auto    ||'$500';
+    document.getElementById('cr-escalate').value= s.escalate||'$5,000';
+    document.getElementById('cr-sla').value     = s.sla     ||7;
   }
 
-  function saveClaimsRules() {
-    localStorage.setItem('ip_claims_rules', JSON.stringify({
-      auto:     document.getElementById('cr-auto').value,
-      escalate: document.getElementById('cr-escalate').value,
-      sla:      document.getElementById('cr-sla').value,
+  function saveClaimsRules(){
+    localStorage.setItem('ip_claims_rules',JSON.stringify({
+      auto:document.getElementById('cr-auto').value,
+      escalate:document.getElementById('cr-escalate').value,
+      sla:document.getElementById('cr-sla').value,
     }));
     showToast('Claims rules saved!');
   }
 
-  // ===== USERS LIST =====
-  function loadUsers() {
-    const users = JSON.parse(localStorage.getItem('ip_users') || '[]');
-    const body  = document.getElementById('users-body');
-    if (!users.length) {
-      body.innerHTML = '<tr><td colspan="3" style="color:#94a3b8;padding:1rem">No registered users yet.</td></tr>';
-      return;
-    }
-    body.innerHTML = users.map(u => `
+  function loadUsers(){
+    const users=JSON.parse(localStorage.getItem('ip_users')||'[]');
+    const body=document.getElementById('users-body');
+    if(!users.length){body.innerHTML='<tr><td colspan="3" style="color:#94a3b8;padding:1rem">No registered users yet.</td></tr>';return;}
+    body.innerHTML=users.map(u=>`
       <tr>
         <td>
           <div style="display:flex;align-items:center;gap:8px">
-            <div style="width:30px;height:30px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">${u.initials}</div>
-            ${u.name}
+            <div style="width:28px;height:28px;border-radius:50%;background:#0f2044;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${u.initials}</div>
+            <span style="font-size:13px;font-weight:500">${u.name}</span>
           </div>
         </td>
-        <td style="color:#475569">${u.email}</td>
-        <td style="color:#94a3b8">${u.since || 'N/A'}</td>
+        <td style="color:#475569;font-size:12px">${u.email}</td>
+        <td class="hide-mobile" style="color:#94a3b8;font-size:12px">${u.since||'N/A'}</td>
       </tr>`).join('');
   }
 
-  // ===== INIT — load all saved values =====
-  loadProfile();
-  loadNotifications();
-  loadCompany();
-  loadClaimsRules();
-  loadUsers();
+  loadProfile(); loadNotifications(); loadCompany(); loadClaimsRules(); loadUsers();
 </script>
 </body>
 </html>

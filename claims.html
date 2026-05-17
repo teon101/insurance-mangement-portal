@@ -38,6 +38,17 @@
   </aside>
 
   <div class="main">
+
+    <div class="mobile-topbar">
+      <div class="mobile-brand">
+        <div class="mobile-brand-icon"><i class="ti ti-shield-check"></i></div>
+        <div class="mobile-brand-name">Claims</div>
+      </div>
+      <div class="mobile-user">
+        <button class="btn-primary btn-sm" onclick="openModal()" style="font-size:12px;padding:7px 12px"><i class="ti ti-plus"></i> File</button>
+      </div>
+    </div>
+
     <header class="topbar">
       <div>
         <div class="page-title">Claims Management</div>
@@ -54,7 +65,7 @@
       <div class="stat-grid">
         <div class="stat-card">
           <div class="stat-icon navy"><i class="ti ti-clipboard-list"></i></div>
-          <div class="stat-body"><div class="stat-label">Total Claims</div><div class="stat-val" id="s-total">0</div></div>
+          <div class="stat-body"><div class="stat-label">Total</div><div class="stat-val" id="s-total">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon amber"><i class="ti ti-send"></i></div>
@@ -62,7 +73,7 @@
         </div>
         <div class="stat-card">
           <div class="stat-icon teal"><i class="ti ti-eye"></i></div>
-          <div class="stat-body"><div class="stat-label">Under Review</div><div class="stat-val" id="s-review">0</div></div>
+          <div class="stat-body"><div class="stat-label">In Review</div><div class="stat-val" id="s-review">0</div></div>
         </div>
         <div class="stat-card">
           <div class="stat-icon green"><i class="ti ti-circle-check"></i></div>
@@ -72,22 +83,28 @@
 
       <div class="section-card">
         <div class="tab-bar">
-          <div class="tab active" onclick="setTab('all',this)">All Claims</div>
+          <div class="tab active" onclick="setTab('all',this)">All</div>
           <div class="tab" onclick="setTab('Submitted',this)">Submitted</div>
-          <div class="tab" onclick="setTab('Under Review',this)">Under Review</div>
+          <div class="tab" onclick="setTab('Under Review',this)">In Review</div>
           <div class="tab" onclick="setTab('Approved',this)">Approved</div>
           <div class="tab" onclick="setTab('Rejected',this)">Rejected</div>
         </div>
         <div class="section-header">
-          <div class="search-wrap">
+          <div class="search-wrap" style="flex:1">
             <i class="ti ti-search"></i>
-            <input class="search-input" type="text" id="search" placeholder="Search by ID or customer..." oninput="render()"/>
+            <input class="search-input" type="text" id="search" placeholder="Search claims..." oninput="render()"/>
           </div>
-          <button class="btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus"></i> File Claim</button>
         </div>
         <table class="dt">
           <thead>
-            <tr><th>Claim ID</th><th>Policy ID</th><th>Customer</th><th>Type</th><th>Amount</th><th>Filed</th><th>Status</th><th>Action</th></tr>
+            <tr>
+              <th>Claim ID</th>
+              <th>Customer</th>
+              <th class="hide-mobile">Type</th>
+              <th class="hide-mobile">Amount</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -97,6 +114,15 @@
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html"     class="bn-item"><i class="ti ti-layout-dashboard"></i>Home</a>
+  <a href="policies.html"  class="bn-item"><i class="ti ti-file-text"></i>Policies</a>
+  <a href="claims.html"    class="bn-item active"><i class="ti ti-clipboard-list"></i>Claims</a>
+  <a href="customers.html" class="bn-item"><i class="ti ti-users"></i>Customers</a>
+  <a href="settings.html"  class="bn-item"><i class="ti ti-settings"></i>Settings</a>
+</nav>
+
 <!-- FILE CLAIM MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
@@ -105,11 +131,11 @@
       <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
     <div class="form-grid">
-      <div>
+      <div class="form-full">
         <label class="field-label">Customer Name</label>
         <input type="text" id="n-customer" placeholder="e.g. John Doe" style="width:100%"/>
       </div>
-      <div>
+      <div class="form-full">
         <label class="field-label">Policy ID</label>
         <input type="text" id="n-policy" placeholder="e.g. POL-2023-0512" style="width:100%"/>
       </div>
@@ -138,19 +164,19 @@
     <div class="error-msg" id="err">Please fill in all fields.</div>
     <div class="form-actions">
       <button class="btn-outline" onclick="closeModal()">Cancel</button>
-      <button class="btn-primary" onclick="addClaim()"><i class="ti ti-send"></i> Submit Claim</button>
+      <button class="btn-primary" onclick="addClaim()"><i class="ti ti-send"></i> Submit</button>
     </div>
   </div>
 </div>
 
-<!-- VIEW CLAIM MODAL -->
+<!-- VIEW MODAL -->
 <div class="modal-overlay" id="view-modal">
   <div class="modal">
     <div class="modal-head">
       <div class="modal-title">Claim Details</div>
       <button class="modal-close" onclick="closeView()">&times;</button>
     </div>
-    <div id="view-content" style="font-size:13px;margin-bottom:1.25rem"></div>
+    <div id="view-content" style="font-size:13px;margin-bottom:1rem"></div>
     <div style="margin-bottom:1rem">
       <label class="field-label">Update Status</label>
       <select id="update-status" style="width:100%">
@@ -160,127 +186,110 @@
     </div>
     <div class="form-actions">
       <button class="btn-outline" onclick="closeView()">Close</button>
-      <button class="btn-primary" onclick="updateStatus()"><i class="ti ti-refresh"></i> Update Status</button>
+      <button class="btn-primary" onclick="updateStatus()"><i class="ti ti-refresh"></i> Update</button>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"><i class="ti ti-circle-check" style="color:#10b981;font-size:16px"></i><span id="toast-msg"></span></div>
 
 <script src="data.js"></script>
 <script>
-  requireLogin();
-  injectUser();
-
-  let activeTab  = 'all';
-  let viewingId  = null;
+  requireLogin(); injectUser();
+  let activeTab='all', viewingId=null;
 
   function updateStats() {
-    const c = getClaims();
+    const c=getClaims();
     document.getElementById('s-total').textContent     = c.length;
-    document.getElementById('s-submitted').textContent = c.filter(x => x.status === 'Submitted').length;
-    document.getElementById('s-review').textContent    = c.filter(x => x.status === 'Under Review').length;
-    document.getElementById('s-approved').textContent  = c.filter(x => x.status === 'Approved').length;
+    document.getElementById('s-submitted').textContent = c.filter(x=>x.status==='Submitted').length;
+    document.getElementById('s-review').textContent    = c.filter(x=>x.status==='Under Review').length;
+    document.getElementById('s-approved').textContent  = c.filter(x=>x.status==='Approved').length;
   }
 
   function render() {
-    const claims = getClaims();
-    const q = document.getElementById('search').value.toLowerCase();
-    const filtered = claims.filter(c =>
-      (activeTab === 'all' || c.status === activeTab) &&
-      (!q || c.id.toLowerCase().includes(q) || c.customer.toLowerCase().includes(q))
+    const claims=getClaims();
+    const q=document.getElementById('search').value.toLowerCase();
+    const filtered=claims.filter(c=>
+      (activeTab==='all'||c.status===activeTab)&&
+      (!q||c.id.toLowerCase().includes(q)||c.customer.toLowerCase().includes(q))
     );
-    const body  = document.getElementById('tbody');
-    const empty = document.getElementById('empty');
-    if (!filtered.length) { body.innerHTML = ''; empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-    body.innerHTML = filtered.slice().reverse().map(c => `
+    const body=document.getElementById('tbody');
+    const empty=document.getElementById('empty');
+    if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
+    empty.style.display='none';
+    body.innerHTML=filtered.slice().reverse().map(c=>`
       <tr>
         <td class="id-cell">${c.id}</td>
-        <td class="id-cell" style="color:#475569">${c.policyId}</td>
         <td>${c.customer}</td>
-        <td>${c.type}</td>
-        <td class="mono">${c.amount}</td>
-        <td style="color:#94a3b8;font-size:12.5px">${c.filed}</td>
+        <td class="hide-mobile">${c.type}</td>
+        <td class="mono hide-mobile">${c.amount}</td>
         <td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td>
-        <td><button class="btn-outline btn-sm" onclick="openView('${c.id}')"><i class="ti ti-eye"></i> View</button></td>
+        <td><button class="btn-outline btn-sm" onclick="openView('${c.id}')"><i class="ti ti-eye"></i></button></td>
       </tr>`).join('');
   }
 
-  function setTab(tab, el) {
-    activeTab = tab;
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
-    render();
+  function setTab(tab,el){
+    activeTab=tab;
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active'); render();
   }
 
-  function openModal()  { document.getElementById('modal').classList.add('open'); }
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.getElementById('err').style.display = 'none';
-  }
+  function openModal(){document.getElementById('modal').classList.add('open');}
+  function closeModal(){document.getElementById('modal').classList.remove('open');document.getElementById('err').style.display='none';}
 
-  function addClaim() {
-    const customer = document.getElementById('n-customer').value.trim();
-    const policyId = document.getElementById('n-policy').value.trim();
-    const type     = document.getElementById('n-type').value;
-    const amount   = document.getElementById('n-amount').value.trim();
-    const filed    = document.getElementById('n-date').value.trim();
-    const status   = document.getElementById('n-status').value;
-
-    if (!customer || !policyId || !amount || !filed) {
-      document.getElementById('err').style.display = 'block'; return;
-    }
-
-    const claims = getClaims();
-    const id = 'CLM-2025-0' + String(claims.length + 1).padStart(3, '0');
-    claims.push({ id, policyId, customer, type, amount, filed, status });
+  function addClaim(){
+    const customer=document.getElementById('n-customer').value.trim();
+    const policyId=document.getElementById('n-policy').value.trim();
+    const type=document.getElementById('n-type').value;
+    const amount=document.getElementById('n-amount').value.trim();
+    const filed=document.getElementById('n-date').value.trim();
+    const status=document.getElementById('n-status').value;
+    if(!customer||!policyId||!amount||!filed){document.getElementById('err').style.display='block';return;}
+    const claims=getClaims();
+    const id='CLM-2025-0'+String(claims.length+1).padStart(3,'0');
+    claims.push({id,policyId,customer,type,amount,filed,status});
     saveClaims(claims);
-
-    // Update customer claim count
-    const customers = getCustomers();
-    const cust = customers.find(c => c.name.toLowerCase() === customer.toLowerCase());
-    if (cust) { cust.claims += 1; saveCustomers(customers); }
-
+    const customers=getCustomers();
+    const c=customers.find(x=>x.name.toLowerCase()===customer.toLowerCase());
+    if(c){c.claims+=1;saveCustomers(customers);}
     closeModal(); updateStats(); render();
-    showToast('Claim submitted successfully!');
-    ['n-customer','n-policy','n-amount','n-date'].forEach(id => document.getElementById(id).value = '');
+    showToast('Claim submitted!');
+    ['n-customer','n-policy','n-amount','n-date'].forEach(id=>document.getElementById(id).value='');
   }
 
-  function openView(id) {
-    viewingId = id;
-    const c = getClaims().find(x => x.id === id);
-    document.getElementById('view-content').innerHTML = `
+  function openView(id){
+    viewingId=id;
+    const c=getClaims().find(x=>x.id===id);
+    document.getElementById('view-content').innerHTML=`
       <table style="width:100%;border-collapse:collapse;font-size:13px">
         <tr><td style="padding:8px 0;color:#94a3b8;width:40%">Claim ID</td><td style="font-weight:700;color:#0f2044">${c.id}</td></tr>
         <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Policy ID</td><td>${c.policyId}</td></tr>
         <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Customer</td><td>${c.customer}</td></tr>
         <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Type</td><td>${c.type}</td></tr>
-        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Amount</td><td class="mono" style="font-weight:600">${c.amount}</td></tr>
+        <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Amount</td><td style="font-weight:600">${c.amount}</td></tr>
         <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Filed</td><td>${c.filed}</td></tr>
         <tr style="border-top:1px solid #f1f5f9"><td style="padding:8px 0;color:#94a3b8">Status</td><td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td></tr>
       </table>`;
-    document.getElementById('update-status').value = c.status;
+    document.getElementById('update-status').value=c.status;
     document.getElementById('view-modal').classList.add('open');
   }
 
-  function closeView() { document.getElementById('view-modal').classList.remove('open'); viewingId = null; }
+  function closeView(){document.getElementById('view-modal').classList.remove('open');viewingId=null;}
 
-  function updateStatus() {
-    const newStatus = document.getElementById('update-status').value;
-    const claims = getClaims();
-    const c = claims.find(x => x.id === viewingId);
-    if (c) { c.status = newStatus; saveClaims(claims); }
+  function updateStatus(){
+    const s=document.getElementById('update-status').value;
+    const claims=getClaims();
+    const c=claims.find(x=>x.id===viewingId);
+    if(c){c.status=s;saveClaims(claims);}
     closeView(); updateStats(); render();
-    showToast('Claim status updated to ' + newStatus + '!');
+    showToast('Status updated to '+s+'!');
   }
 
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    document.getElementById('toast-msg').textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    document.getElementById('toast-msg').textContent=msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),2500);
   }
 
   updateStats(); render();

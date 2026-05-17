@@ -11,6 +11,7 @@
 <body>
 <div class="app">
 
+  <!-- DESKTOP SIDEBAR -->
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-icon"><i class="ti ti-shield-check"></i></div>
@@ -38,6 +39,20 @@
   </aside>
 
   <div class="main">
+
+    <!-- MOBILE TOPBAR -->
+    <div class="mobile-topbar">
+      <div class="mobile-brand">
+        <div class="mobile-brand-icon"><i class="ti ti-shield-check"></i></div>
+        <div class="mobile-brand-name">InsurePortal</div>
+      </div>
+      <div class="mobile-user">
+        <span style="font-size:12px;color:rgba(255,255,255,0.7);margin-right:4px" class="user-name"></span>
+        <div class="mobile-avatar user-initials">T</div>
+      </div>
+    </div>
+
+    <!-- DESKTOP TOPBAR -->
     <header class="topbar">
       <div>
         <div class="page-title">Dashboard</div>
@@ -74,13 +89,12 @@
           <div class="stat-body">
             <div class="stat-label">Total Customers</div>
             <div class="stat-val" id="s-customers">0</div>
-            <div class="stat-change up"></div>
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-icon amber"><i class="ti ti-clock"></i></div>
           <div class="stat-body">
-            <div class="stat-label">Pending Approval</div>
+            <div class="stat-label">Pending</div>
             <div class="stat-val" id="s-pending">0</div>
             <div class="stat-change warn">Needs review</div>
           </div>
@@ -97,49 +111,38 @@
               <div class="chart-title">Policy Overview</div>
               <div class="chart-sub">Active vs expired this year</div>
             </div>
-            <select class="period-sel">
-              <option>2025</option><option>2024</option>
-            </select>
+            <select class="period-sel"><option>2025</option><option>2024</option></select>
           </div>
-
-          <div style="position:relative;width:100%;height:160px;margin-bottom:8px;">
-            <svg id="area-chart" viewBox="0 0 500 140" preserveAspectRatio="none"
-              style="width:100%;height:100%;display:block;">
+          <div style="position:relative;width:100%;height:140px;margin-bottom:6px;">
+            <svg id="area-chart" viewBox="0 0 500 130" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
               <defs>
                 <linearGradient id="gradGreen" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stop-color="#10b981" stop-opacity="0.35"/>
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/>
                   <stop offset="100%" stop-color="#10b981" stop-opacity="0.02"/>
                 </linearGradient>
                 <linearGradient id="gradNavy" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stop-color="#0f2044" stop-opacity="0.2"/>
+                  <stop offset="0%" stop-color="#0f2044" stop-opacity="0.2"/>
                   <stop offset="100%" stop-color="#0f2044" stop-opacity="0.02"/>
                 </linearGradient>
               </defs>
-              <line x1="0" y1="28"  x2="500" y2="28"  stroke="#f1f5f9" stroke-width="1"/>
-              <line x1="0" y1="56"  x2="500" y2="56"  stroke="#f1f5f9" stroke-width="1"/>
-              <line x1="0" y1="84"  x2="500" y2="84"  stroke="#f1f5f9" stroke-width="1"/>
-              <line x1="0" y1="112" x2="500" y2="112" stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="26"  x2="500" y2="26"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="52"  x2="500" y2="52"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="78"  x2="500" y2="78"  stroke="#f1f5f9" stroke-width="1"/>
+              <line x1="0" y1="104" x2="500" y2="104" stroke="#f1f5f9" stroke-width="1"/>
               <path id="area-expired" fill="url(#gradNavy)"/>
               <path id="line-expired" fill="none" stroke="#c7d8f5" stroke-width="2" stroke-linejoin="round"/>
               <path id="area-active"  fill="url(#gradGreen)"/>
               <path id="line-active"  fill="none" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round"/>
               <g id="dots-active"></g>
             </svg>
-            <div style="position:absolute;left:0;top:0;height:100%;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none">
-              <span style="font-size:10px;color:#cbd5e1">8</span>
-              <span style="font-size:10px;color:#cbd5e1">6</span>
-              <span style="font-size:10px;color:#cbd5e1">4</span>
-              <span style="font-size:10px;color:#cbd5e1">2</span>
-              <span style="font-size:10px;color:#cbd5e1">0</span>
-            </div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:0 2px;margin-bottom:10px">
-            <span style="font-size:10px;color:#94a3b8">Jan</span><span style="font-size:10px;color:#94a3b8">Feb</span>
-            <span style="font-size:10px;color:#94a3b8">Mar</span><span style="font-size:10px;color:#94a3b8">Apr</span>
-            <span style="font-size:10px;color:#94a3b8">May</span><span style="font-size:10px;color:#94a3b8">Jun</span>
-            <span style="font-size:10px;color:#94a3b8">Jul</span><span style="font-size:10px;color:#94a3b8">Aug</span>
-            <span style="font-size:10px;color:#94a3b8">Sep</span><span style="font-size:10px;color:#94a3b8">Oct</span>
-            <span style="font-size:10px;color:#94a3b8">Nov</span><span style="font-size:10px;color:#94a3b8">Dec</span>
+          <div style="display:flex;justify-content:space-between;padding:0 2px;margin-bottom:8px">
+            <span style="font-size:9px;color:#94a3b8">Jan</span><span style="font-size:9px;color:#94a3b8">Feb</span>
+            <span style="font-size:9px;color:#94a3b8">Mar</span><span style="font-size:9px;color:#94a3b8">Apr</span>
+            <span style="font-size:9px;color:#94a3b8">May</span><span style="font-size:9px;color:#94a3b8">Jun</span>
+            <span style="font-size:9px;color:#94a3b8">Jul</span><span style="font-size:9px;color:#94a3b8">Aug</span>
+            <span style="font-size:9px;color:#94a3b8">Sep</span><span style="font-size:9px;color:#94a3b8">Oct</span>
+            <span style="font-size:9px;color:#94a3b8">Nov</span><span style="font-size:9px;color:#94a3b8">Dec</span>
           </div>
           <div class="bar-legend">
             <div class="legend-item"><span class="dot dot-green"></span> Active</div>
@@ -165,7 +168,7 @@
             <a href="policies.html" class="view-all">View all →</a>
           </div>
           <table class="dt">
-            <thead><tr><th>Policy ID</th><th>Customer</th><th>Type</th><th>Status</th></tr></thead>
+            <thead><tr><th>Policy ID</th><th>Customer</th><th class="hide-mobile">Type</th><th>Status</th></tr></thead>
             <tbody id="tbl-policies"></tbody>
           </table>
         </div>
@@ -175,7 +178,7 @@
             <a href="claims.html" class="view-all">View all →</a>
           </div>
           <table class="dt">
-            <thead><tr><th>Claim ID</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+            <thead><tr><th>Claim ID</th><th>Customer</th><th class="hide-mobile">Amount</th><th>Status</th></tr></thead>
             <tbody id="tbl-claims"></tbody>
           </table>
         </div>
@@ -185,43 +188,47 @@
   </div>
 </div>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="index.html"     class="bn-item active"><i class="ti ti-layout-dashboard"></i>Home</a>
+  <a href="policies.html"  class="bn-item"><i class="ti ti-file-text"></i>Policies</a>
+  <a href="claims.html"    class="bn-item"><i class="ti ti-clipboard-list"></i>Claims</a>
+  <a href="customers.html" class="bn-item"><i class="ti ti-users"></i>Customers</a>
+  <a href="settings.html"  class="bn-item"><i class="ti ti-settings"></i>Settings</a>
+</nav>
+
 <script src="data.js"></script>
 <script>
-  // Auth check + inject name
   requireLogin();
   injectUser();
 
-  // Load live data from localStorage
   const policies  = getPolicies();
   const claims    = getClaims();
   const customers = getCustomers();
 
-  // ===== STAT CARDS =====
   const activePolicies  = policies.filter(p => p.status === 'Active').length;
   const activeClaims    = claims.filter(c => c.status === 'Submitted' || c.status === 'Under Review').length;
   const pendingPolicies = policies.filter(p => p.status === 'Pending').length;
 
-  document.getElementById('s-policies').textContent         = policies.length;
-  document.getElementById('s-policies-change').textContent  = `↑ ${activePolicies} active`;
-  document.getElementById('s-claims').textContent           = activeClaims;
-  document.getElementById('s-claims-change').textContent    = `${claims.filter(c=>c.status==='Submitted').length} submitted`;
-  document.getElementById('s-customers').textContent        = customers.length;
-  document.getElementById('s-pending').textContent          = pendingPolicies;
+  document.getElementById('s-policies').textContent        = policies.length;
+  document.getElementById('s-policies-change').textContent = `↑ ${activePolicies} active`;
+  document.getElementById('s-claims').textContent          = activeClaims;
+  document.getElementById('s-claims-change').textContent   = `${claims.filter(c=>c.status==='Submitted').length} submitted`;
+  document.getElementById('s-customers').textContent       = customers.length;
+  document.getElementById('s-pending').textContent         = pendingPolicies;
 
-  // ===== AREA CHART (based on real policy counts) =====
-  // Spread active/expired across 12 months for visual
-  const totalActive  = activePolicies  || 4;
+  // Area chart
+  const totalActive  = activePolicies || 4;
   const totalExpired = policies.filter(p => p.status === 'Expired').length || 1;
-
-  const activeData  = [2,3,3,4,4,5,5,totalActive,totalActive,totalActive,totalActive,totalActive];
-  const expiredData = [0,0,1,1,1,1,totalExpired,totalExpired,totalExpired,totalExpired,totalExpired,totalExpired];
+  const activeData   = [2,3,3,4,4,5,5,totalActive,totalActive,totalActive,totalActive,totalActive];
+  const expiredData  = [0,0,1,1,1,1,totalExpired,totalExpired,totalExpired,totalExpired,totalExpired,totalExpired];
   const maxVal = Math.max(...activeData, ...expiredData, 6);
-  const W = 500, H = 130, pad = 10;
+  const W = 500, H = 120, pad = 8;
 
   function toX(i) { return pad + (i / 11) * (W - pad * 2); }
   function toY(v) { return H - pad - (v / maxVal) * (H - pad * 2); }
-  function makePath(data) { return data.map((v,i) => `${i===0?'M':'L'}${toX(i)},${toY(v)}`).join(' '); }
-  function makeArea(data) { return `${makePath(data)} L${toX(11)},${H} L${toX(0)},${H} Z`; }
+  function makePath(d) { return d.map((v,i) => `${i===0?'M':'L'}${toX(i)},${toY(v)}`).join(' '); }
+  function makeArea(d) { return `${makePath(d)} L${toX(11)},${H} L${toX(0)},${H} Z`; }
 
   document.getElementById('line-active').setAttribute('d',  makePath(activeData));
   document.getElementById('area-active').setAttribute('d',  makeArea(activeData));
@@ -230,19 +237,18 @@
 
   const dotsG = document.getElementById('dots-active');
   activeData.forEach((v,i) => {
-    dotsG.innerHTML += `<circle cx="${toX(i)}" cy="${toY(v)}" r="3.5" fill="#fff" stroke="#10b981" stroke-width="2.5"/>`;
+    dotsG.innerHTML += `<circle cx="${toX(i)}" cy="${toY(v)}" r="3" fill="#fff" stroke="#10b981" stroke-width="2"/>`;
   });
 
-  // ===== RECENT ACTIVITY from claims =====
+  // Activity
   const al = document.getElementById('act-list');
-  const recent = [...claims].reverse().slice(0, 5);
-
-  if (recent.length === 0) {
-    al.innerHTML = '<div style="color:#94a3b8;font-size:13px;padding:1rem 0">No activity yet.</div>';
+  const recent = [...claims].reverse().slice(0, 4);
+  if (!recent.length) {
+    al.innerHTML = '<div style="color:#94a3b8;font-size:13px;padding:0.5rem 0">No activity yet.</div>';
   } else {
     recent.forEach(c => {
-      const iconMap = { 'Submitted':'ti-send', 'Approved':'ti-check', 'Rejected':'ti-x', 'Under Review':'ti-eye' };
-      const colMap  = { 'Submitted':'amber', 'Approved':'green', 'Rejected':'red', 'Under Review':'teal' };
+      const iconMap = { 'Submitted':'ti-send','Approved':'ti-check','Rejected':'ti-x','Under Review':'ti-eye' };
+      const colMap  = { 'Submitted':'amber','Approved':'green','Rejected':'red','Under Review':'teal' };
       al.innerHTML += `
         <div class="act-item">
           <div class="act-ico ${colMap[c.status]||'navy'}"><i class="ti ${iconMap[c.status]||'ti-clipboard-list'}"></i></div>
@@ -255,23 +261,23 @@
     });
   }
 
-  // ===== TABLES =====
-  policies.slice(-5).reverse().forEach(p => {
+  // Tables
+  policies.slice(-4).reverse().forEach(p => {
     document.getElementById('tbl-policies').innerHTML += `
       <tr>
         <td class="id-cell">${p.id}</td>
         <td>${p.customer}</td>
-        <td>${p.type}</td>
+        <td class="hide-mobile">${p.type}</td>
         <td><span class="badge ${getBadgeClass(p.status)}">${p.status}</span></td>
       </tr>`;
   });
 
-  claims.slice(-5).reverse().forEach(c => {
+  claims.slice(-4).reverse().forEach(c => {
     document.getElementById('tbl-claims').innerHTML += `
       <tr>
         <td class="id-cell">${c.id}</td>
         <td>${c.customer}</td>
-        <td class="mono">${c.amount}</td>
+        <td class="mono hide-mobile">${c.amount}</td>
         <td><span class="badge ${getBadgeClass(c.status)}">${c.status}</span></td>
       </tr>`;
   });
